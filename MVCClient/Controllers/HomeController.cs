@@ -34,7 +34,7 @@ namespace MVCClient.Controllers
             return View();
         }
         //[Authorize(Roles = "administrator")]
-        //[Authorize("ShowPrivacy")]
+        [Authorize("ShowPrivacy")]
         public async Task<IActionResult> Privacy()
         {
             //var client = new HttpClient();
@@ -103,7 +103,10 @@ namespace MVCClient.Controllers
                 var apiResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             }
-
+            else
+            {
+                Console.WriteLine("Call to identity claims client failed");
+            }
 
             return View();
         }

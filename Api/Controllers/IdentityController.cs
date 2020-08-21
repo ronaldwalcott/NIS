@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [Route("identity")]
-    //[Authorize]
-    [AllowAnonymous]
+//    [Authorize]
+    //[Authorize("ShowPrivacy")]
+    //[AllowAnonymous]
     public class IdentityController : ControllerBase
     {
         [HttpGet]

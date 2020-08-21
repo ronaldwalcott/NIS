@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -16,10 +17,19 @@ namespace Api
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        }
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
+            
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -33,6 +43,8 @@ namespace Api
                     };
                 });
 
+
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ApiScope", policy =>
@@ -41,6 +53,9 @@ namespace Api
                     policy.RequireClaim("scope", "api1");
                 });
             });
+
+            services.AddPolicyServerClient(Configuration.GetSection("Policy"))
+                .AddAuthorizationPermissionPolicies();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -48,6 +63,7 @@ namespace Api
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UsePolicyServerClaims();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
