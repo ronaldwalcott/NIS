@@ -39,18 +39,18 @@ namespace NISApi.API.v1
             return persons;
         }
 
-        [Route("paged")]
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<PersonQueryResponse>), Status200OK)]
-        public async Task<IEnumerable<PersonQueryResponse>> Get([FromQuery] UrlQueryParameters urlQueryParameters)
-        {
-            var data = await _personManager.GetPersonsAsync(urlQueryParameters);
-            var persons = _mapper.Map<IEnumerable<PersonQueryResponse>>(data.Persons);
+        //[Route("paged")]
+        //[HttpGet]
+        //[ProducesResponseType(typeof(IEnumerable<PersonQueryResponse>), Status200OK)]
+        //public async Task<IEnumerable<PersonQueryResponse>> Get([FromQuery] UrlQueryParameters urlQueryParameters)
+        //{
+        //    var data = await _personManager.GetPersonsAsync(urlQueryParameters);
+        //    var persons = _mapper.Map<IEnumerable<PersonQueryResponse>>(data.Persons);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(data.Pagination));
+        //    Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(data.Pagination));
 
-            return persons;
-        }
+        //    return persons;
+        //}
 
         [Route("{id:long}")]
         [HttpGet]

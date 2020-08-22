@@ -16,6 +16,7 @@ using Microsoft.OData.Edm;
 using Microsoft.AspNet.OData.Builder;
 using NISApi.Data;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace NISApi
 {
@@ -24,6 +25,7 @@ namespace NISApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -49,6 +51,8 @@ namespace NISApi
             //Register Automapper
             services.AddAutoMapper(typeof(MappingProfileConfiguration));
 
+            services.AddPolicyServerClient(Configuration.GetSection("Policy"))
+                .AddAuthorizationPermissionPolicies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,8 +102,12 @@ namespace NISApi
             //Adds authenticaton middleware to the pipeline so authentication will be performed automatically on each request to host
             app.UseAuthentication();
 
+            //Add PolicyServer claims mapping middleware
+            app.UsePolicyServerClaims();
+
             //Adds authorization middleware to the pipeline to make sure the Api endpoint cannot be accessed by anonymous clients
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

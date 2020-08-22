@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NISApi.Data.Entity
 {
@@ -7,6 +8,7 @@ namespace NISApi.Data.Entity
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
     }
 }

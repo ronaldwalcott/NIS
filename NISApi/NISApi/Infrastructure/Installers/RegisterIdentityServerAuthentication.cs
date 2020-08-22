@@ -21,7 +21,7 @@ namespace NISApi.Infrastructure.Installers
                     {
                         options.Authority = config["ApiResourceBaseUrls:AuthServer"];
                         options.RequireHttpsMetadata = false;
-                        options.ApiName = "api.boilerplate.core";
+                        options.ApiName = "NISapi";
                     });
         }
     }
