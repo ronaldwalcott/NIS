@@ -16,10 +16,11 @@ namespace NISApi.Data.Entity
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public string Action { get; set; }
-        public DateTimeOffset CreatedDateTimeUtc { get; set; }
-        public DateTimeOffset ModifiedDateTimeUtc { get; set; }
-        public DateTimeOffset DeletedDateTimeUtc { get; set; }
-        public bool IsDeleted { get; set; }
+
+        public DateTimeOffset? CreatedDateTimeUtc { get; set; }
+        public DateTimeOffset? ModifiedDateTimeUtc { get; set; }
+        public DateTimeOffset? DeletedDateTimeUtc { get; set; }
+        public bool? IsDeleted { get; set; }
 
         [Timestamp]
         public byte[] Timestamp  { get; set; }

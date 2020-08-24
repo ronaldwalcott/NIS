@@ -17,6 +17,9 @@ using Microsoft.AspNet.OData.Builder;
 using NISApi.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Net.Http.Headers;
+using System.Linq;
+using Microsoft.AspNet.OData.Formatter;
 
 namespace NISApi
 {
@@ -46,13 +49,14 @@ namespace NISApi
                     .AddFluentValidation(fv => { fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false; });
 
             //Odata
-            services.AddOData();
+           services.AddOData();
 
             //Register Automapper
             services.AddAutoMapper(typeof(MappingProfileConfiguration));
 
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
+            AddFormatters(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +116,23 @@ namespace NISApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+        }
+
+        private void AddFormatters(IServiceCollection services)
+        {
+            services.AddMvcCore(options =>
+            {
+                foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+
+                foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+
             });
         }
     }
