@@ -28,19 +28,27 @@ namespace IdentityServerAspNetIdentity
                 Name = "api1",
                 DisplayName = "API #1",
                 Description = "Allow the application to access API #1 on your behalf",
-                Scopes = new List<string> {"api1"},
+                Scopes = new List<string> {"api1"}
+                //UserClaims = new List<string> {"name", "email"}
+            },
+            new ApiResource
+            {
+                Name = "NISapi",
+                DisplayName = "Main API",
+                Description = "API",
+                Scopes = new List<string> {"NISapi"}
                 //UserClaims = new List<string> {"name", "email"}
             }
+
         };
        
-
-
 
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-            new ApiScope("api1", "My API")
+            new ApiScope("api1", "My API"),
+            new ApiScope("NISapi", "NIS API")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -76,7 +84,8 @@ namespace IdentityServerAspNetIdentity
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    "api1"
+                    "api1",
+                    "NISapi"
                 },
 
                 AllowOfflineAccess = true,

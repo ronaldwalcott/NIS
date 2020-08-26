@@ -59,6 +59,7 @@ namespace MVCClient
                 options.ResponseType = "code id_token";
 
                 options.Scope.Add("api1");
+                options.Scope.Add("NISapi");
 
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;

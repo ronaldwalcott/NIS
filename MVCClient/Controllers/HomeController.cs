@@ -34,7 +34,7 @@ namespace MVCClient.Controllers
             return View();
         }
         //[Authorize(Roles = "administrator")]
-        [Authorize("ShowPrivacy")]
+        //[Authorize("ShowPrivacy")]
         public async Task<IActionResult> Privacy()
         {
             //var client = new HttpClient();
