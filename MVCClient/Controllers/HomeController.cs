@@ -14,6 +14,7 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using MVCClient.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace MVCClient.Controllers
 {
@@ -21,10 +22,12 @@ namespace MVCClient.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly INisHttpClient _nisHttpClient;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(INisHttpClient nisHttpClient, ILogger<HomeController> logger)
+        public HomeController(INisHttpClient nisHttpClient, IConfiguration configuration, ILogger<HomeController> logger)
         {
             _nisHttpClient = nisHttpClient;
+            _configuration = configuration;
             _logger = logger;
         }
 
@@ -96,7 +99,7 @@ namespace MVCClient.Controllers
 
             var httpClient = await _nisHttpClient.GetClient();
 
-            var response = await httpClient.GetAsync("https://localhost:6001/identity").ConfigureAwait(false);
+            var response = await httpClient.GetAsync(_configuration["ApiResourceBaseUrls:Api"] + "/identity").ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {

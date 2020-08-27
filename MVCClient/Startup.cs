@@ -51,7 +51,7 @@ namespace MVCClient
             .AddCookie("Cookies")
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:5001";
+                options.Authority = Configuration["ApiResourceBaseUrls:AuthServer"]; 
 
                 options.ClientId = "mvc";
                 options.ClientSecret = "secret";
@@ -71,6 +71,7 @@ namespace MVCClient
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzA5MDEzQDMxMzgyZTMyMmUzMEpQakxiMnlBZTVRRjZENUlNcWtNY0Q1TTFJMHYyZzZVT1dWRHJtZjFCVWc9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
