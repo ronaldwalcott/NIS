@@ -15,6 +15,7 @@ namespace NISApi.Data.Entity
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
+        [StringLength(1)]
         public string Action { get; set; }
 
         public DateTimeOffset? CreatedDateTimeUtc { get; set; }
