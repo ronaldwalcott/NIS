@@ -20,6 +20,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Net.Http.Headers;
 using System.Linq;
 using Microsoft.AspNet.OData.Formatter;
+using NISApi.DTO.Response.SystemTables;
 
 namespace NISApi
 {
@@ -116,10 +117,36 @@ namespace NISApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.Select().Filter().OrderBy().Count().MaxTop(50);
+                endpoints.MapODataRoute("odata", "odata", GetEdmModel());
+
             });
         }
 
-        private void AddFormatters(IServiceCollection services)
+        private IEdmModel GetEdmModel()
+        {
+            var odataBuilder = new ODataConventionModelBuilder();
+            odataBuilder.EntitySet<CountryQueryResponse>("TableCountries");
+            odataBuilder.EntitySet<CollectionQueryResponse>("TableCollections");
+            odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts");
+            odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes");
+            odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes");
+            odataBuilder.EntitySet<IndustryQueryResponse>("TableIndustries");
+            odataBuilder.EntitySet<MaritalStatusQueryResponse>("TableMaritalStatuses");
+            odataBuilder.EntitySet<NationalityQueryResponse>("TableNationalities");
+            odataBuilder.EntitySet<OccupationQueryResponse>("TableOccupations");
+            odataBuilder.EntitySet<ParishQueryResponse>("TableParishes");
+            odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes");
+            odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices");
+
+
+
+            //  odataBuilder.EntityType<PersonResponse>().DerivesFromNothing();
+
+            return odataBuilder.GetEdmModel();
+        }
+  
+    private void AddFormatters(IServiceCollection services)
         {
             services.AddMvcCore(options =>
             {
