@@ -75,19 +75,31 @@ namespace NISApi.Data.DataManager
             return false;
         }
 
-        public async Task<bool> DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(Person person)
         {
-            if (await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id)))
+            if (await ExistAsync(person))
             {
-                var personDelete = await _context.Persons.Where(p => p.Id == Convert.ToInt32(id)).SingleOrDefaultAsync();
+                var personDelete = await _context.Persons.Where(p => p.Id == person.Id).SingleOrDefaultAsync();
                 personDelete.IsDeleted = true;
-
-                //_context.Persons.Remove(await GetByIdAsync(id));
+                _context.Persons.Update(personDelete);
                 return await _context.SaveChangesAsync() > 0;
             }
-
             return false;
         }
+
+        //public async Task<bool> DeleteAsync(object id)
+        //{
+        //    if (await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id)))
+        //    {
+        //        var personDelete = await _context.Persons.Where(p => p.Id == Convert.ToInt32(id)).SingleOrDefaultAsync();
+        //        personDelete.IsDeleted = true;
+
+        //        //_context.Persons.Remove(await GetByIdAsync(id));
+        //        return await _context.SaveChangesAsync() > 0;
+        //    }
+
+        //    return false;
+        //}
 
         public async Task<bool> ExistAsync(object id)
         {

@@ -9,7 +9,8 @@ namespace NISApi.Contracts
         Task<T> GetByIdAsync(object id);
         Task<long> CreateAsync(T entity);
         Task<bool> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(object id);
+//        Task<bool> DeleteAsync(object id);
+        Task<bool> DeleteAsync(T entity);
         Task<bool> ExistAsync(object id);
     }
 }

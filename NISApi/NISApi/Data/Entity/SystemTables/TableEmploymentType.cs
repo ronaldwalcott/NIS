@@ -8,7 +8,7 @@ namespace NISApi.Data.Entity.SystemTables
 {
     public class TableEmploymentType : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(10)]
         [Required]
         public string Code { get; set; }
