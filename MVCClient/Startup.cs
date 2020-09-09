@@ -30,7 +30,10 @@ namespace MVCClient
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<INisHttpClient, NisHttpClient>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            });
 
             services.AddAuthorization(options =>
             {
@@ -90,12 +93,28 @@ namespace MVCClient
             app.UsePolicyServerClaims();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute()
-                    .RequireAuthorization();
+                endpoints.MapAreaControllerRoute(
+                    name: "arearoute",
+                    areaName: "SystemTables",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}")
+                .RequireAuthorization();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}")
+                .RequireAuthorization();
+                //endpoints.MapRazorPages()
+                //.RequireAuthorization();
             });
+
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapDefaultControllerRoute()
+            //        .RequireAuthorization();
+            //});
+
 
             //app.UseEndpoints(endpoints =>
             //{

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableDistrictManager : IRepository<TableDistrict>
+    public interface ITableDistrictManager : IRepository<TableDistrict>
     {
     }
 }

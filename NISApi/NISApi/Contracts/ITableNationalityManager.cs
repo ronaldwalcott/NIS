@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableNationalityManager : IRepository<TableNationality>
+    public interface ITableNationalityManager : IRepository<TableNationality>
     {
     }
 }

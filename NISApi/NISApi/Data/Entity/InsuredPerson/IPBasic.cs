@@ -10,7 +10,7 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPBasic : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(70)]
         public string AliasName { get; set; }
         [StringLength(10)]
@@ -42,51 +42,51 @@ namespace NISApi.Data.Entity.InsuredPerson
         [DataType(DataType.Date)]
         public DateTime? RegistrationDate { get; set; }
 
-        public int? CountryOfBirthID { get; set; }
+        public long? CountryOfBirthID { get; set; }
         [ForeignKey("CountryOfBirthID")]
         public TableCountry CountryOfBirth { get; set; }
 
-        public int? NationalityID { get; set; }
+        public long? NationalityID { get; set; }
         [ForeignKey("NationalityID")]
         public TableNationality Nationality { get; set; }
 
-        public int? OccupationID { get; set; }
+        public long? OccupationID { get; set; }
         [ForeignKey("OccupationID")]
         public TableOccupation Occupation { get; set; }
 
-        public int? ParishID { get; set; }
+        public long? ParishID { get; set; }
         [ForeignKey("ParishID")]
         public TableParish Parish { get; set; }
 
-        public int? PostalCodeID { get; set; }
+        public long? PostalCodeID { get; set; }
         [ForeignKey("PostalCodeID")]
         public TablePostalCode PostalCode { get; set; }
 
-        public int? DistrictID { get; set; }
+        public long? DistrictID { get; set; }
         [ForeignKey("DistrictID")]
         public TableDistrict District { get; set; }
 
-        public int? StreetID { get; set; }
+        public long? StreetID { get; set; }
         [ForeignKey("StreetID")]
         public TableStreet Street { get; set; }
 
-        public int? PostOfficeID { get; set; }
+        public long? PostOfficeID { get; set; }
         [ForeignKey("PostOfficeID")]
         public TablePostOffice PostOffice { get; set; }
 
-        public int? EmploymentTypeID { get; set; }
+        public long? EmploymentTypeID { get; set; }
         [ForeignKey("EmploymentTypeID")]
         public TableEmploymentType EmploymentType { get; set; }
 
-        public int? MaritalStatusID { get; set; }
+        public long? MaritalStatusID { get; set; }
         [ForeignKey("MaritalStatusID")]
         public TableMaritalStatus MaritalStatus { get; set; }
 
-        public int? ParishOfBirthID { get; set; }
+        public long? ParishOfBirthID { get; set; }
         [ForeignKey("ParishOfBirthID")]
         public TableParish ParishOfBirth { get; set; }
 
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

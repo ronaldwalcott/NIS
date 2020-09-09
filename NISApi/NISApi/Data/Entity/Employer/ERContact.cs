@@ -9,7 +9,7 @@ namespace NISApi.Data.Entity.Employer
 {
     public class ERContact : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [Phone]
         public string MainTelephoneNumber { get; set; }
         [Phone]
@@ -19,7 +19,7 @@ namespace NISApi.Data.Entity.Employer
         [Url]
         public string WebAddress { get; set; }
 
-        public int ERMasterID { get; set; }
+        public long ERMasterID { get; set; }
         [ForeignKey("ERMasterID")]
         public ERMaster ERMaster { get; set; }
 

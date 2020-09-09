@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableEmploymentTypeManager : IRepository<TableEmploymentType>
+    public interface ITableEmploymentTypeManager : IRepository<TableEmploymentType>
     {
     }
 }

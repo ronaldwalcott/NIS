@@ -9,7 +9,7 @@ namespace NISApi.Data.Entity.Employer
 {
     public class ERDirector : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         [StringLength(70)]
         [Required]
@@ -21,7 +21,7 @@ namespace NISApi.Data.Entity.Employer
         public string MiddleName { get; set; }
         public bool ManagingDirector { get; set; }
 
-        public int ERMasterID { get; set; }
+        public long ERMasterID { get; set; }
         [ForeignKey("ERMasterID")]
         public ERMaster ERMaster { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NISApi.Data.Entity.User;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NISApi.Contracts
@@ -9,8 +10,8 @@ namespace NISApi.Contracts
         Task<T> GetByIdAsync(object id);
         Task<long> CreateAsync(T entity);
         Task<bool> UpdateAsync(T entity);
-//        Task<bool> DeleteAsync(object id);
-        Task<bool> DeleteAsync(T entity);
+        Task<bool> DeleteAsync(object id, UserData userData);
+//        Task<bool> DeleteAsync(T entity);
         Task<bool> ExistAsync(object id);
     }
 }

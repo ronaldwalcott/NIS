@@ -10,33 +10,33 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPAddress : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(100)]
         public string AddressLine1 { get; set; }
         [StringLength(100)]
         public string AddressLine2 { get; set; }
 
-        public int? ParishID { get; set; }
+        public long? ParishID { get; set; }
         [ForeignKey("ParishID")]
         public TableParish Parish { get; set; }
 
-        public int? PostalCodeID { get; set; }
+        public long? PostalCodeID { get; set; }
         [ForeignKey("PostalCodeID")]
         public TablePostalCode PostalCode { get; set; }
 
-        public int? DistrictID { get; set; }
+        public long? DistrictID { get; set; }
         [ForeignKey("DistrictID")]
         public TableDistrict District { get; set; }
 
-        public int? StreetID { get; set; }
+        public long? StreetID { get; set; }
         [ForeignKey("StreetID")]
         public TableStreet Street { get; set; }
 
-        public int? PostOfficeID { get; set; }
+        public long? PostOfficeID { get; set; }
         [ForeignKey("PostOfficeID")]
         public TablePostOffice PostOffice { get; set; }
 
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

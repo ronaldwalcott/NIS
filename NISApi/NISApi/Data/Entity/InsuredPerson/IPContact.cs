@@ -9,7 +9,7 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPContact : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         [Phone]
         //        [DataType(DataType.PhoneNumber)]
@@ -25,7 +25,7 @@ namespace NISApi.Data.Entity.InsuredPerson
         [EmailAddress]
         public string Email { get; set; }
 
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

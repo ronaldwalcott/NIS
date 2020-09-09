@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableParishManager : IRepository<TableParish>
+    public interface ITableParishManager : IRepository<TableParish>
     {
     }
 }

@@ -7,7 +7,7 @@ namespace NISApi.DTO.Response.SystemTables
 {
     public class CountryQueryResponse
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         public string Code { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }

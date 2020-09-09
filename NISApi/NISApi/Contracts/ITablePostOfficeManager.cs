@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITablePostOfficeManager : IRepository<TablePostOffice>
+    public interface ITablePostOfficeManager : IRepository<TablePostOffice>
     {
     }
 }

@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using NISApi.Data.Entity.User;
 
 namespace NISApi.Data.DataManager
 {
@@ -75,31 +75,34 @@ namespace NISApi.Data.DataManager
             return false;
         }
 
-        public async Task<bool> DeleteAsync(Person person)
-        {
-            if (await ExistAsync(person))
-            {
-                var personDelete = await _context.Persons.Where(p => p.Id == person.Id).SingleOrDefaultAsync();
-                personDelete.IsDeleted = true;
-                _context.Persons.Update(personDelete);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            return false;
-        }
-
-        //public async Task<bool> DeleteAsync(object id)
+        //public async Task<bool> DeleteAsync(Person person)
         //{
-        //    if (await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id)))
+        //    if (await ExistAsync(person))
         //    {
-        //        var personDelete = await _context.Persons.Where(p => p.Id == Convert.ToInt32(id)).SingleOrDefaultAsync();
+        //        var personDelete = await _context.Persons.Where(p => p.Id == person.Id).SingleOrDefaultAsync();
         //        personDelete.IsDeleted = true;
-
-        //        //_context.Persons.Remove(await GetByIdAsync(id));
+        //        _context.Persons.Update(personDelete);
         //        return await _context.SaveChangesAsync() > 0;
         //    }
-
         //    return false;
         //}
+
+        public async Task<bool> DeleteAsync(object id, UserData userData)
+        {
+            if (await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id)))
+            {
+                var personDelete = await _context.Persons.Where(p => p.Id == Convert.ToInt32(id)).SingleOrDefaultAsync();
+                personDelete.IsDeleted = true;
+                personDelete.DeletedBy = userData.UserName;
+                personDelete.DeletedById = userData.UserId;
+              //  personDelete.DeletedDateTimeUtc = 
+                _context.Persons.Update(personDelete);
+                //_context.Persons.Remove(await GetByIdAsync(id));
+                return await _context.SaveChangesAsync() > 0;
+            }
+
+            return false;
+        }
 
         public async Task<bool> ExistAsync(object id)
         {

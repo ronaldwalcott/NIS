@@ -197,19 +197,19 @@ namespace NISApi.Test.v1
             await Assert.ThrowsAsync<Exception>(() => _controller.Put(10, FakeUpdateRequestObject()));
         }
 
-        [Fact]
-        public async Task DELETE_ById_RETURNS_OK()
-        {
-            long id = 1;
+        //[Fact]
+        //public async Task DELETE_ById_RETURNS_OK()
+        //{
+        //    long id = 1;
 
-            _mockDataManager.Setup(manager => manager.DeleteAsync(id))
-                 .ReturnsAsync(true);
+        //    _mockDataManager.Setup(manager => manager.DeleteAsync(id))
+        //         .ReturnsAsync(true);
 
-            var result = await _controller.Delete(id);
+        //    var result = await _controller.Delete(id);
 
-            var response = Assert.IsType<ApiResponse>(result);
-            Assert.Equal(200, response.StatusCode);
-        }
+        //    var response = Assert.IsType<ApiResponse>(result);
+        //    Assert.Equal(200, response.StatusCode);
+        //}
 
         [Fact]
         public async Task DELETE_ById_RETURNS_NOTFOUND()
@@ -218,15 +218,15 @@ namespace NISApi.Test.v1
             Assert.Equal(404, apiException.StatusCode);
         }
 
-        [Fact]
-        public async Task DELETE_ById_RETURNS_SERVERERROR()
-        {
-            long id = 1;
+        //[Fact]
+        //public async Task DELETE_ById_RETURNS_SERVERERROR()
+        //{
+        //    long id = 1;
 
-            _mockDataManager.Setup(manager => manager.DeleteAsync(id))
-                .Throws(new Exception());
+        //    _mockDataManager.Setup(manager => manager.DeleteAsync(id))
+        //        .Throws(new Exception());
 
-            await Assert.ThrowsAsync<Exception>(() => _controller.Delete(id));
-        }
+        //    await Assert.ThrowsAsync<Exception>(() => _controller.Delete(id));
+        //}
     }
 }

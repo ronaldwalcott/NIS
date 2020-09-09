@@ -8,12 +8,18 @@
     <PackageReference Include="IdentityModel" Version="4.3.1" />
     <PackageReference Include="IdentityServer4" Version="4.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.2.0.55" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PolicyServer.Local1\PolicyServer.Local1.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\SystemTables\Data\" />
+    <Folder Include="Areas\SystemTables\Models\" />
   </ItemGroup>
 
 

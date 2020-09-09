@@ -10,7 +10,7 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPRegEmployer : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(100)]
         public string EmployerName { get; set; }
         public bool ActiveEmployer { get; set; }
@@ -19,27 +19,27 @@ namespace NISApi.Data.Entity.InsuredPerson
         [StringLength(100)]
         public string EmployerAddressLine2 { get; set; }
 
-        public int? EmployerParishID { get; set; }
+        public long? EmployerParishID { get; set; }
         [ForeignKey("EmployerParishID")]
         public TableParish Parish { get; set; }
 
-        public int? EmployerPostalCodeID { get; set; }
+        public long? EmployerPostalCodeID { get; set; }
         [ForeignKey("EmployerPostalCodeID")]
         public TablePostalCode PostalCode { get; set; }
 
-        public int? EmployerDistrictID { get; set; }
+        public long? EmployerDistrictID { get; set; }
         [ForeignKey("EmployerDistrictID")]
         public TableDistrict District { get; set; }
 
-        public int? EmployerStreetID { get; set; }
+        public long? EmployerStreetID { get; set; }
         [ForeignKey("EmployerStreetID")]
         public TableStreet Street { get; set; }
 
-        public int? EmployerPostOfficeID { get; set; }
+        public long? EmployerPostOfficeID { get; set; }
         [ForeignKey("EmployerPostOfficeID")]
         public TablePostOffice PostOffice { get; set; }
 
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

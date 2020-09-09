@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableDocumentTypeManager : IRepository<TableDocumentType>
+    public interface ITableDocumentTypeManager : IRepository<TableDocumentType>
     {
     }
 }

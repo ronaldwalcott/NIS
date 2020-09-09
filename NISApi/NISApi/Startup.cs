@@ -45,19 +45,24 @@ namespace NISApi
             services.AddServicesInAssembly(Configuration);
 
             //Register MVC/Web API, NewtonsoftJson and add FluentValidation Support
+            //services.AddControllers()
+            //        .AddNewtonsoftJson(ops => { ops.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; })
+            //        .AddFluentValidation(fv => { fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false; });
+
             services.AddControllers()
-                    .AddNewtonsoftJson(ops => { ops.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; })
-                    .AddFluentValidation(fv => { fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false; });
+        .AddNewtonsoftJson()
+        .AddFluentValidation(fv => { fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false; });
+
 
             //Odata
-           services.AddOData();
+            services.AddOData();
 
             //Register Automapper
             services.AddAutoMapper(typeof(MappingProfileConfiguration));
 
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
-            AddFormatters(services);
+            //           AddFormatters(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,18 +88,23 @@ namespace NISApi
             });
 
             //Enable HealthChecks and UI
-            app.UseHealthChecks("/selfcheck", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            }).UseHealthChecksUI(setup =>
-            {
-                setup.AddCustomStylesheet($"{env.ContentRootPath}/Infrastructure/HealthChecks/Ux/branding.css");
-            });
+            //app.UseHealthChecks("/selfcheck", new HealthCheckOptions
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //}).UseHealthChecksUI(setup =>
+            //{
+            //    setup.AddCustomStylesheet($"{env.ContentRootPath}/Infrastructure/HealthChecks/Ux/branding.css");
+            //});
 
             //Enable AutoWrapper.Core
             //More info see: https://github.com/proudmonkey/AutoWrapper
-            app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions { IsDebug = true, UseApiProblemDetailsException = true });
+            //            app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions { IsDebug = true, UseApiProblemDetailsException = true });
+            //app.UseApiResponseAndExceptionWrapper();
+            app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions
+            {
+                IgnoreWrapForOkRequests = true,
+            });
 
             //Enable AspNetCoreRateLimit
             app.UseIpRateLimiting();
@@ -126,18 +136,18 @@ namespace NISApi
         private IEdmModel GetEdmModel()
         {
             var odataBuilder = new ODataConventionModelBuilder();
-            odataBuilder.EntitySet<CountryQueryResponse>("TableCountries");
+            //odataBuilder.EntitySet<CountryQueryResponse>("TableCountries");
             odataBuilder.EntitySet<CollectionQueryResponse>("TableCollections");
-            odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts");
-            odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes");
-            odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes");
-            odataBuilder.EntitySet<IndustryQueryResponse>("TableIndustries");
-            odataBuilder.EntitySet<MaritalStatusQueryResponse>("TableMaritalStatuses");
-            odataBuilder.EntitySet<NationalityQueryResponse>("TableNationalities");
-            odataBuilder.EntitySet<OccupationQueryResponse>("TableOccupations");
-            odataBuilder.EntitySet<ParishQueryResponse>("TableParishes");
-            odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes");
-            odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices");
+            //odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts");
+            //odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes");
+            //odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes");
+            //odataBuilder.EntitySet<IndustryQueryResponse>("TableIndustries");
+            //odataBuilder.EntitySet<MaritalStatusQueryResponse>("TableMaritalStatuses");
+            //odataBuilder.EntitySet<NationalityQueryResponse>("TableNationalities");
+            //odataBuilder.EntitySet<OccupationQueryResponse>("TableOccupations");
+            //odataBuilder.EntitySet<ParishQueryResponse>("TableParishes");
+            //odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes");
+            //odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices");
 
 
 

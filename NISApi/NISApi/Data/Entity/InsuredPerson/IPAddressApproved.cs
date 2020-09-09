@@ -7,7 +7,7 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPAddressApproved : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         public bool? AddressApproval { get; set; }
 
     }

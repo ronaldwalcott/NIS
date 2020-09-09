@@ -8,7 +8,7 @@ namespace NISApi.Data.Entity.Employer
 {
     public class ERMaster : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(15)]
         public string RegistrationNumber { get; set; }
         [StringLength(100)]

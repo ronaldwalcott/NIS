@@ -1,4 +1,5 @@
-﻿using NISApi.Contracts;
+﻿using System.Linq;
+using NISApi.Contracts;
 using NISApi.Data;
 using NISApi.Data.Entity;
 using NISApi.DTO.Request;
@@ -12,6 +13,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static Microsoft.AspNetCore.Http.StatusCodes;
+using NISApi.Data.Entity.User;
+using IdentityModel;
 
 namespace NISApi.API.v1
 {
@@ -96,21 +99,51 @@ namespace NISApi.API.v1
             }
         }
 
-
         [Route("{id:long}")]
-        [HttpDelete]
+        [HttpPut]
         [ProducesResponseType(typeof(ApiResponse), Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
         public async Task<ApiResponse> Delete(long id)
         {
-            if (await _personManager.DeleteAsync(id))
+            if (!ModelState.IsValid) { throw new ApiProblemDetailsException(ModelState); }
+
+            var userData = new UserData();
+            userData = GetUser();
+
+            if (await _personManager.DeleteAsync(id, userData))
             {
                 return new ApiResponse($"Record with Id: {id} sucessfully deleted.", true);
             }
             else
             {
-                throw new ApiProblemDetailsException($"Record with id: {id} does not exist.", Status404NotFound);
+                throw new ApiProblemDetailsException($"Record with Id: {id} does not exist.", Status404NotFound);
             }
+        }
+
+        //[Route("{id:long}")]
+        //[HttpDelete]
+        //[ProducesResponseType(typeof(ApiResponse), Status200OK)]
+        //[ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
+        //public async Task<ApiResponse> Delete(long id)
+        //{
+        //    if (await _personManager.DeleteAsync(id))
+        //    {
+        //        return new ApiResponse($"Record with Id: {id} sucessfully deleted.", true);
+        //    }
+        //    else
+        //    {
+        //        throw new ApiProblemDetailsException($"Record with id: {id} does not exist.", Status404NotFound);
+        //    }
+        //}
+
+        private UserData GetUser() 
+        {
+            UserData newUser = new UserData();
+            newUser.UserName = User.Claims.First(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value;
+            newUser.UserId = User.Claims.First(claim => claim.Type == JwtClaimTypes.Subject).Value;
+
+            return newUser;
         }
     }
 }

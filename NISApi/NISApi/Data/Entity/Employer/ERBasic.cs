@@ -10,29 +10,29 @@ namespace NISApi.Data.Entity.Employer
 {
     public class ERBasic : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(100)]
         public string BusinessAddressLine1 { get; set; }
         [StringLength(100)]
         public string BusinessAddressLine2 { get; set; }
 
-        public int? BusinessParishID { get; set; }
+        public long? BusinessParishID { get; set; }
         [ForeignKey("BusinessParishID")]
         public TableParish BusinessParish { get; set; }
 
-        public int? BusinessPostalCodeID { get; set; }
+        public long? BusinessPostalCodeID { get; set; }
         [ForeignKey("BusinessPostalCodeID")]
         public TablePostalCode BusinessPostalCode { get; set; }
 
-        public int? BusinessDistrictID { get; set; }
+        public long? BusinessDistrictID { get; set; }
         [ForeignKey("BusinessDistrictID")]
         public TableDistrict BusinessDistrict { get; set; }
 
-        public int? BusinessStreetID { get; set; }
+        public long? BusinessStreetID { get; set; }
         [ForeignKey("BusinessStreetID")]
         public TableStreet BusinessStreet { get; set; }
 
-        public int? BusinessPostOfficeID { get; set; }
+        public long? BusinessPostOfficeID { get; set; }
         [ForeignKey("BusinessPostOfficeID")]
         public TablePostOffice BusinessPostOffice { get; set; }
 
@@ -41,27 +41,27 @@ namespace NISApi.Data.Entity.Employer
         [StringLength(100)]
         public string MailingAddressLine2 { get; set; }
 
-        public int? MailingParishID { get; set; }
+        public long? MailingParishID { get; set; }
         [ForeignKey("MailingParishID")]
         public TableParish MailingParish { get; set; }
 
-        public int? MailingPostalCodeID { get; set; }
+        public long? MailingPostalCodeID { get; set; }
         [ForeignKey("MailingPostalCodeID")]
         public TablePostalCode MailingPostalCode { get; set; }
 
-        public int? MailingDistrictID { get; set; }
+        public long? MailingDistrictID { get; set; }
         [ForeignKey("MailingDistrictID")]
         public TableDistrict MailingDistrict { get; set; }
 
-        public int? MailingStreetID { get; set; }
+        public long? MailingStreetID { get; set; }
         [ForeignKey("MailingStreetID")]
         public TableStreet MailingStreet { get; set; }
 
-        public int? MailingPostOfficeID { get; set; }
+        public long? MailingPostOfficeID { get; set; }
         [ForeignKey("MailingPostOfficeID")]
         public TablePostOffice MailingPostOffice { get; set; }
 
-        public int? IndustryID { get; set; }
+        public long? IndustryID { get; set; }
         [ForeignKey("IndustryID")]
         public TableIndustry Industry { get; set; }
 
@@ -73,14 +73,14 @@ namespace NISApi.Data.Entity.Employer
         [StringLength(100)]
         public string CollectorateOfPayment { get; set; }
 
-        public int? CollectionID { get; set; }
+        public long? CollectionID { get; set; }
         [ForeignKey("CollectionID")]
         public TableCollection Collection { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateOfLiability { get; set; }
 
-        public int ERMasterID { get; set; }
+        public long ERMasterID { get; set; }
         [ForeignKey("ERMasterID")]
         public ERMaster ERMaster { get; set; }
 

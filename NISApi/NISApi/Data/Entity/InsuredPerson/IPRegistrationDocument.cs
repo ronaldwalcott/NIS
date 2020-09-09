@@ -9,10 +9,10 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPRegistrationDocument : EntityBase
     {
-        public int ID { get; set; }
-        public int? DocumentTypeId { get; set; }
+        public long ID { get; set; }
+        public long? DocumentTypeId { get; set; }
         public TableDocumentType DocumentType { get; set; }
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITablePostalCodeManager : IRepository<TablePostalCode>
+    public interface ITablePostalCodeManager : IRepository<TablePostalCode>
     {
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NISApi.Data;
 
 namespace NISApi.Migrations
 {
     [DbContext(typeof(NisDbContext))]
-    partial class NisDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200907211006_entitybasechange")]
+    partial class entitybasechange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

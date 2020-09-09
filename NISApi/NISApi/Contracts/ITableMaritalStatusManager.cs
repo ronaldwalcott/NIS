@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableMaritalStatusManager : IRepository<TableMaritalStatus>
+    public interface ITableMaritalStatusManager : IRepository<TableMaritalStatus>
     {
     }
 }

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+
+    <ejs-grid id="Grid" toolbar="@(new List<string>() { })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure">
+        <e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true"></e-data-manager>
+        <e-grid-pagesettings pageSize="2">
+        </e-grid-pagesettings>
+        <e-grid-columns>
+            <e-grid-column field="ID" headerText="ID" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
+        </e-grid-columns>
+    </ejs-grid>
+
+    @*<ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure">
+        <e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true"></e-data-manager>
+        <e-grid-pagesettings pageSize="7">
+        </e-grid-pagesettings>
+        <e-grid-columns>
+            <e-grid-column field="ID" headerText="ID" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
+            <e-grid-column field="Code" headerText="Code" width="150"></e-grid-column>
+            <e-grid-column field="ShortDescription" headerText="Short Description" width="150"></e-grid-column>
+            <e-grid-column field="LongDescription" headerText="Long Description" width="170"></e-grid-column>
+        </e-grid-columns>
+    </ejs-grid>*@
+
+
+</div>
+<script>
+    function actionFailure(args) {
+        console.log(args);
+        var span = document.createElement('span');
+        this.element.parentNode.insertBefore(span, this.element);
+        span.style.color = '#FF0000'
+        span.innerHTML = 'Server exception: 404 Not found';
+    }
+</script>

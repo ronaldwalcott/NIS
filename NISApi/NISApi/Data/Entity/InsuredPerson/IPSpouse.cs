@@ -9,7 +9,7 @@ namespace NISApi.Data.Entity.InsuredPerson
 {
     public class IPSpouse : EntityBase
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         [StringLength(70)]
         public string Surname { get; set; }
         [StringLength(70)]
@@ -23,7 +23,7 @@ namespace NISApi.Data.Entity.InsuredPerson
         [DataType(DataType.Date)]
         public DateTime? DateOfMarriage { get; set; }
 
-        public int InsuredPersonID { get; set; }
+        public long InsuredPersonID { get; set; }
         [ForeignKey("InsuredPersonID")]
         public IPMaster IPMaster { get; set; }
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NISApi.Constants;
 using NISApi.Contracts;
 using NISApi.Data.Entity.SystemTables;
+using NISApi.Data.Entity.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,22 +83,22 @@ namespace NISApi.Data.DataManager
             return false;
         }
 
-        public async Task<bool> DeleteAsync(TableCollection collection)
+        public async Task<bool> DeleteAsync(object id, UserData userData)
         {
-            if (await ExistAsync(collection.ID))
+            if (await ExistAsync(_context.TableCollections.AnyAsync(p => p.ID == Convert.ToInt64(id))))
             {
-                var collectionDelete = await _context.TableCollections.Where(p => p.ID == collection.ID).SingleOrDefaultAsync();
+                var collectionDelete = await _context.TableCollections.Where(p => p.ID == Convert.ToInt64(id)).SingleOrDefaultAsync();
                 collectionDelete.IsDeleted = true;
                 collectionDelete.Action = ActionRecordTypes.Deleted;
                 collectionDelete.DeletedDateTimeUtc = _dateTime.Now;
-                collectionDelete.DeletedBy = collection.DeletedBy;
-                collectionDelete.DeletedById = collection.DeletedById;
+                collectionDelete.DeletedBy = userData.UserName;
+                collectionDelete.DeletedById = userData.UserId;
                 _context.TableCollections.Update(collectionDelete);
                 return await _context.SaveChangesAsync() > 0;
             }
-
             return false;
         }
+
 
         public async Task<bool> ExistAsync(object id)
         {

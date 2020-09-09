@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NISApi.Contracts
 {
-    interface ITableStreetManager : IRepository<TableStreet>
+    public interface ITableStreetManager : IRepository<TableStreet>
     {
     }
 }
