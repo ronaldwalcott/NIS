@@ -18,11 +18,14 @@ using IdentityModel;
 using NISApi.DTO.Response.SystemTables;
 using Microsoft.AspNet.OData;
 using AutoWrapper.Filters;
+using NISApi.Data.Entity.SystemTables;
+using NISApi.DTO.Request.SystemTables;
 
 namespace NISApi.API.v1
-{
-    [Route("api/v1/[controller]")]
+{ 
     [ApiController]
+    [Route("api/v1/TableCollections/")]
+   
     public class TableCollectionsController : ControllerBase
     {
 
@@ -42,20 +45,66 @@ namespace NISApi.API.v1
        // 
         [EnableQuery]
         [HttpGet]
-        public IEnumerable<CollectionQueryResponse> Get([FromQuery] UrlQueryParameters urlQueryParameters)
+        public IEnumerable<CollectionQueryResponse> Get()
         {
             //var queryString = Request.Query;
-            var data = _collectionManager.GetCollections(urlQueryParameters);
-            var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data.Collections);
+            var data =  _collectionManager.GetCollections();
+            var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data);
 
             return collections;
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(ApiResponse), Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
+        public async Task<ApiResponse> Post([FromBody] CreateCollectionRequest createRequest)
+        {
+            if (!ModelState.IsValid) { throw new ApiProblemDetailsException(ModelState); }
+
+            var collection = _mapper.Map<TableCollection>(createRequest);
+            return new ApiResponse("Record successfully created.", await _collectionManager.CreateAsync(collection), Status201Created);
+        }
+
+       // [Route("{id:long}")]
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ApiResponse), Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
+        public async Task<ApiResponse> Put(long id, [FromBody] UpdateCollectionRequest updateRequest)
+        {
+            if (!ModelState.IsValid) { throw new ApiProblemDetailsException(ModelState); }
+
+            var collection = _mapper.Map<TableCollection>(updateRequest);
+            collection.ID = id;
+
+            if (await _collectionManager.UpdateAsync(collection))
+            {
+                return new ApiResponse($"Record with Id: {id} sucessfully updated.", true);
+            }
+            else
+            {
+                throw new ApiProblemDetailsException($"Record with Id: {id} does not exist.", Status404NotFound);
+            }
+        }
+
+
+
+
+
+        //public IEnumerable<CollectionQueryResponse> Get([FromQuery] UrlQueryParameters urlQueryParameters)
+        //{
+        //    //var queryString = Request.Query;
+        //    var data = _collectionManager.GetCollections(urlQueryParameters);
+        //    var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data.Collections);
+
+        //    return collections;
+        //}
 
 
 
         //[HttpGet]
         //[ProducesResponseType(typeof(IEnumerable<CollectionQueryResponse>), Status200OK)]
-        //public async Task<IEnumerable<CollectionQueryResponse>> Get()
+        //public async Task<IEnumerable<CollectionQueryResponse>> GetAll()
         //{
         //    var data = await _collectionManager.GetAllAsync();
         //    var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data);

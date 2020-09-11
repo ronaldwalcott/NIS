@@ -23,23 +23,32 @@ namespace NISApi.Data.DataManager
             _dateTime = dateTimeUtc;
         }
 
-        public (IEnumerable<TableCollection> Collections, Pagination Pagination) GetCollections(UrlQueryParameters urlQueryParameters)
+        public IEnumerable<TableCollection> GetCollections()
         {
             IEnumerable<TableCollection> collections;
-            int recordCount = 0;
 
             collections = _context.TableCollections.AsQueryable();
 
-            var metadata = new Pagination
-            {
-                PageNumber = urlQueryParameters.PageNumber,
-                PageSize = urlQueryParameters.PageSize,
-                TotalRecords = recordCount
-            };
 
-            return (collections, metadata);
+            return collections;
         }
 
+        //public (IEnumerable<TableCollection> Collections, Pagination Pagination) GetCollections(UrlQueryParameters urlQueryParameters)
+        //{
+        //    IEnumerable<TableCollection> collections;
+        //    int recordCount = 0;
+
+        //    collections = _context.TableCollections.AsQueryable();
+
+        //    var metadata = new Pagination
+        //    {
+        //        PageNumber = urlQueryParameters.PageNumber,
+        //        PageSize = urlQueryParameters.PageSize,
+        //        TotalRecords = recordCount
+        //    };
+
+        //    return (collections, metadata);
+        //}
         public async Task<IEnumerable<TableCollection>> GetAllAsync()
         {
             return await _context.TableCollections.ToListAsync();

@@ -17,9 +17,10 @@ using NISApi.Data.Entity.User;
 using IdentityModel;
 
 namespace NISApi.API.v1
-{
-    [Route("api/v1/[controller]")]
+{    
     [ApiController]
+    [Route("api/v1/[controller]")]
+
     public class PersonsController : ControllerBase
     {
         private readonly ILogger<PersonsController> _logger;

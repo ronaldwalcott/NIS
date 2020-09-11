@@ -9,6 +9,7 @@ namespace NISApi.Contracts
 {
     public interface ITableCollectionManager : IRepository<TableCollection>
     {
-        (IEnumerable<TableCollection> Collections, Pagination Pagination) GetCollections(UrlQueryParameters urlQueryParameters);
+        //(IEnumerable<TableCollection> Collections, Pagination Pagination) GetCollections(UrlQueryParameters urlQueryParameters);
+        IEnumerable<TableCollection>  GetCollections();
     }
 }

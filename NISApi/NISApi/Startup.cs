@@ -62,7 +62,7 @@ namespace NISApi
 
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
-            //           AddFormatters(services);
+            AddFormatters(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

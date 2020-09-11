@@ -7,26 +7,17 @@
 
 <div>
 
-    <ejs-grid id="Grid" toolbar="@(new List<string>() { })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure">
-        <e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true"></e-data-manager>
-        <e-grid-pagesettings pageSize="2">
-        </e-grid-pagesettings>
-        <e-grid-columns>
-            <e-grid-column field="ID" headerText="ID" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
-        </e-grid-columns>
-    </ejs-grid>
-
-    @*<ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure">
-        <e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true"></e-data-manager>
+    <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created">
+        <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
         <e-grid-pagesettings pageSize="7">
         </e-grid-pagesettings>
         <e-grid-columns>
-            <e-grid-column field="ID" headerText="ID" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
+            <e-grid-column field="ID" headerText="ID" visible="false" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
             <e-grid-column field="Code" headerText="Code" width="150"></e-grid-column>
             <e-grid-column field="ShortDescription" headerText="Short Description" width="150"></e-grid-column>
             <e-grid-column field="LongDescription" headerText="Long Description" width="170"></e-grid-column>
         </e-grid-columns>
-    </ejs-grid>*@
+    </ejs-grid>
 
 
 </div>
@@ -39,3 +30,50 @@
         span.innerHTML = 'Server exception: 404 Not found';
     }
 </script>
+
+
+<script>
+    function created(args) {
+        class SerialNoAdaptor extends ej.data.ODataV4Adaptor {
+options = { 
+        requestType: 'get', 
+        accept: 'application/json, text/javascript, */*; q=0.01', 
+        multipartAccept: 'multipart/mixed', 
+        sortBy: '$orderby', 
+        select: '$select',            //Replaced the default $select with “$filter” 
+        skip: '$skip', 
+        take: '$top', 
+        count: '$count', 
+        search: '$search', 
+        where: '$filter', 
+        expand: '$expand', 
+        batch: '$batch', 
+        changeSet: '--changeset_', 
+        batchPre: 'batch_', 
+        contentId: 'Content-Id: ', 
+        batchContent: 'Content-Type: multipart/mixed; boundary=', 
+        changeSetContent: 'Content-Type: application/http\nContent-Transfer-Encoding: binary ', 
+        batchChangeSetContentType: 'Content-Type: application/json; charset=utf-8 ', 
+        updateType: 'PUT', 
+        localTime: false, 
+        apply: '$apply' 
+    }; 
+
+
+        }
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        var grid = document.querySelector('#Grid').ej2_instances[0];
+        grid.dataSource = new ej.data.DataManager({
+            url: "https://localhost:6001/odata/TableCollections",
+            adaptor: new SerialNoAdaptor()
+        });
+        console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+    }
+</script>
+
+@*<e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true" updateUrl="https://localhost:6001/api/v1/TableCollections"></e-data-manager>*@
+
+
+            @*options = {
+                updateType: 'PUT',
+            };*@
