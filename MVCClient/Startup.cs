@@ -69,6 +69,7 @@ namespace MVCClient
             });
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

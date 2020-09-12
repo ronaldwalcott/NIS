@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +9,7 @@
 
 <div>
 
-    <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created">
+    <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created" actionComplete="complete">
         <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
         <e-grid-pagesettings pageSize="7">
         </e-grid-pagesettings>
@@ -34,46 +36,33 @@
 
 <script>
     function created(args) {
-        class SerialNoAdaptor extends ej.data.ODataV4Adaptor {
-options = { 
-        requestType: 'get', 
-        accept: 'application/json, text/javascript, */*; q=0.01', 
-        multipartAccept: 'multipart/mixed', 
-        sortBy: '$orderby', 
-        select: '$select',            //Replaced the default $select with “$filter” 
-        skip: '$skip', 
-        take: '$top', 
-        count: '$count', 
-        search: '$search', 
-        where: '$filter', 
-        expand: '$expand', 
-        batch: '$batch', 
-        changeSet: '--changeset_', 
-        batchPre: 'batch_', 
-        contentId: 'Content-Id: ', 
-        batchContent: 'Content-Type: multipart/mixed; boundary=', 
-        changeSetContent: 'Content-Type: application/http\nContent-Transfer-Encoding: binary ', 
-        batchChangeSetContentType: 'Content-Type: application/json; charset=utf-8 ', 
-        updateType: 'PUT', 
-        localTime: false, 
-        apply: '$apply' 
-    }; 
-
-
-        }
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         var grid = document.querySelector('#Grid').ej2_instances[0];
+        console.log("AAAAAAAAAAAAA" +  "@Configuration["ApiResourceBaseUrls:Api"]");
+
+
         grid.dataSource = new ej.data.DataManager({
-            url: "https://localhost:6001/odata/TableCollections",
-            adaptor: new SerialNoAdaptor()
+            url: "@Configuration["ApiResourceBaseUrls:Api"]/odata/TableCollections",
+            adaptor: new ej.data.ODataV4Adaptor({ updateType: 'PUT' })
         });
-        console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
     }
 </script>
+
+<script type="text/javascript">
+    function complete(args) {
+        if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
+            let dialog = args.dialog;
+            // change the header of the dialog
+            dialog.header = args.requestType === 'beginEdit' ? 'Edit Record' : 'New Record';
+        }
+    }
+
+</script>
+
+
 
 @*<e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true" updateUrl="https://localhost:6001/api/v1/TableCollections"></e-data-manager>*@
 
 
-            @*options = {
-                updateType: 'PUT',
-            };*@
+@*options = {
+        updateType: 'PUT',
+    };*@
