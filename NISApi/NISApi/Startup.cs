@@ -60,6 +60,20 @@ namespace NISApi
             //Register Automapper
             services.AddAutoMapper(typeof(MappingProfileConfiguration));
 
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("ApiScope", policy =>
+            //    {
+            //        policy.RequireAuthenticatedUser();
+            //        policy.RequireClaim("scope", "NISapi");
+            //    });
+            //});
+
+
+
+
+
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
             AddFormatters(services);
@@ -88,14 +102,14 @@ namespace NISApi
             });
 
             //Enable HealthChecks and UI
-            //app.UseHealthChecks("/selfcheck", new HealthCheckOptions
-            //{
-            //    Predicate = _ => true,
-            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            //}).UseHealthChecksUI(setup =>
-            //{
-            //    setup.AddCustomStylesheet($"{env.ContentRootPath}/Infrastructure/HealthChecks/Ux/branding.css");
-            //});
+            app.UseHealthChecks("/selfcheck", new HealthCheckOptions
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            }).UseHealthChecksUI(setup =>
+            {
+                setup.AddCustomStylesheet($"{env.ContentRootPath}/Infrastructure/HealthChecks/Ux/branding.css");
+            });
 
             //Enable AutoWrapper.Core
             //More info see: https://github.com/proudmonkey/AutoWrapper
@@ -126,7 +140,7 @@ namespace NISApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers();  //.RequireAuthorization("ApiScope"); //authorization added 9/18
                 endpoints.Select().Filter().OrderBy().Count().MaxTop(50);
                 endpoints.MapODataRoute("odata", "odata", GetEdmModel());
 
@@ -137,7 +151,7 @@ namespace NISApi
         {
             var odataBuilder = new ODataConventionModelBuilder();
             //odataBuilder.EntitySet<CountryQueryResponse>("TableCountries");
-            odataBuilder.EntitySet<CollectionQueryResponse>("TableCollections");
+            odataBuilder.EntitySet<CollectionQueryResponse>("TableCollections").EntityType.HasKey(x => x.ID);
             //odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts");
             //odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes");
             //odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes");

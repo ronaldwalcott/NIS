@@ -13,5 +13,12 @@ namespace MVCClient.Areas.SystemTables.Controllers
         {
             return View();
         }
+
+        public IActionResult ViewTest()
+        {
+            return View();
+        }
+
+
     }
 }

@@ -20,12 +20,14 @@ using Microsoft.AspNet.OData;
 using AutoWrapper.Filters;
 using NISApi.Data.Entity.SystemTables;
 using NISApi.DTO.Request.SystemTables;
+using Microsoft.AspNet.OData.Routing;
+using NISApi.Infrastructure.Helpers;
 
 namespace NISApi.API.v1
 { 
-    [ApiController]
-    [Route("api/v1/TableCollections/")]
    
+    [Route("api/v1/TableCollections")]
+    [ApiController]
     public class TableCollectionsController : ControllerBase
     {
 
@@ -65,25 +67,43 @@ namespace NISApi.API.v1
             return new ApiResponse("Record successfully created.", await _collectionManager.CreateAsync(collection), Status201Created);
         }
 
+
        // [Route("{id:long}")]
-        [HttpPut("{id}")]
+        [HttpPut]
+        //[ODataRoute("({id})")]
         [ProducesResponseType(typeof(ApiResponse), Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
-        public async Task<ApiResponse> Put(long id, [FromBody] UpdateCollectionRequest updateRequest)
+        [ProducesResponseType(typeof(ApiResponse), Status400BadRequest)]
+        //public async Task<IActionResult> Put([FromODataUri] long key, [FromBody] UpdateCollectionRequest updateRequest)
+        public async Task<ApiResponse> Put([FromODataUri] long key, [FromBody] UpdateCollectionRequest updateRequest)
         {
-            if (!ModelState.IsValid) { throw new ApiProblemDetailsException(ModelState); }
+            if (!ModelState.IsValid) 
+            { 
+                throw new ApiProblemDetailsException(ModelState); 
+            }
+
+            if (key != updateRequest.ID)
+            {
+                throw new ApiProblemDetailsException($"Problem accessing record with Code: {updateRequest.Code}.", Status400BadRequest);
+//                return ap  BadRequest();
+            }
+            var theUser = User.Claims.ToList();
+
+            UserClaim userClaim = new UserClaim();
+            UserData userData = userClaim.Claims(User);
 
             var collection = _mapper.Map<TableCollection>(updateRequest);
-            collection.ID = id;
+            //collection.ModifiedBy = userData.UserName;
+            //collection.ModifiedById = userData.UserId;
 
             if (await _collectionManager.UpdateAsync(collection))
             {
-                return new ApiResponse($"Record with Id: {id} sucessfully updated.", true);
+                return new ApiResponse($"Record with Code: {updateRequest.Code} sucessfully updated.", true);
             }
             else
             {
-                throw new ApiProblemDetailsException($"Record with Id: {id} does not exist.", Status404NotFound);
+                throw new ApiProblemDetailsException($"Record with Id: {key} does not exist.", Status404NotFound);
             }
         }
 

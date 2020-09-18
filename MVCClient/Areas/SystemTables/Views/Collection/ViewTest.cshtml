@@ -9,8 +9,9 @@
 
 <div>
 
-    <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created" actionComplete="complete">
+    <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Update", "Cancel" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" actionComplete="complete">
         <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
+        <e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true" updateUrl="https://localhost:6001/api/v1/TableCollections"></e-data-manager>
         <e-grid-pagesettings pageSize="7">
         </e-grid-pagesettings>
         <e-grid-columns>
@@ -34,16 +35,15 @@
 </script>
 
 
-<script>
+@*<script>
     function created(args) {
         var grid = document.querySelector('#Grid').ej2_instances[0];
         grid.dataSource = new ej.data.DataManager({
             url: "@Configuration["ApiResourceBaseUrls:Api"]/odata/TableCollections",
             adaptor: new ej.data.ODataV4Adaptor({ updateType: 'PUT' })
-
         });
     }
-</script>
+</script>*@
 
 <script type="text/javascript">
     function complete(args) {
