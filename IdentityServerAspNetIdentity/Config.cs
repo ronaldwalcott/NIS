@@ -36,8 +36,9 @@ namespace IdentityServerAspNetIdentity
                 Name = "NISapi",
                 DisplayName = "Main API",
                 Description = "API",
-                Scopes = new List<string> {"NISapi"}
-                //UserClaims = new List<string> {"name", "email"}
+              //  ApiSecrets = { new Secret("apisecret".Sha256()) },
+                Scopes = new List<string> {"NISapi"},
+                UserClaims = new List<string> {"name", "email"}
             }
 
         };
@@ -72,7 +73,7 @@ namespace IdentityServerAspNetIdentity
                 ClientSecrets = { new Secret("secret".Sha256()) },
 
                //AllowedGrantTypes = GrantTypes.Code,
-                AllowedGrantTypes = GrantTypes.Hybrid,
+                AllowedGrantTypes = GrantTypes.Hybrid,  //GrantTypes.HybridAndClientCredentials,
                 RequirePkce = false,
                 // where to redirect to after login
                 RedirectUris = { "https://localhost:5002/signin-oidc" },

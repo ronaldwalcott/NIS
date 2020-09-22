@@ -19,39 +19,39 @@ namespace NISApi.Infrastructure.Installers
             //See: http://vmsdurano.com/apiboilerplate-and-identityserver4-access-control-for-apis/
 
 
-            //        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer(options =>
-            //{
-            //            // base-address of your identityserver
-            //            options.Authority = config["ApiResourceBaseUrls: AuthServer"];
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //   .AddJwtBearer("Bearer", options =>
+            //    {
+            //       // base-address of your identityserver
+            //        options.Authority = config["ApiResourceBaseUrls: AuthServer"];
+            //        options.RequireHttpsMetadata = false;
+            //        // name of the API resource
+            //        options.Audience = "NISapi";
+            //    });
 
-            //            // name of the API resource
-            //    options.Audience = "NISapi";
+            //        services.AddAuthentication("Bearer")
+            //.AddJwtBearer("Bearer", options =>
+            //{
+            //    options.Authority = "https://localhost:5001";
+
+
+
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateAudience = false
+            //    };
             //});
 
-            services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = "https://localhost:5001";
 
 
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = config["ApiResourceBaseUrls:AuthServer"];
+                        options.RequireHttpsMetadata = false;
+                        options.ApiName = "NISapi";
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false
-        };
-    });
-
-
-
-            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //        .AddIdentityServerAuthentication(options =>
-            //        {
-            //            options.Authority = config["ApiResourceBaseUrls:AuthServer"];
-            //            options.RequireHttpsMetadata = false;
-            //            options.ApiName = "NISapi";
-
-            //        });
+                    });
         }
     }
 }

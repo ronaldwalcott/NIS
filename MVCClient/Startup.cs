@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCClient.Helpers;
 using MVCClient.Services;
 
 namespace MVCClient
@@ -20,6 +21,7 @@ namespace MVCClient
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -28,21 +30,15 @@ namespace MVCClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //Register a Typed Instance of HttpClientFactory for AuthService 
+            //services.AddHttpClient<IAuthServerConnect, AuthServerConnect>();            
+            
             services.AddScoped<INisHttpClient, NisHttpClient>();
+            services.AddScoped<IAuthToken, AuthToken>();
 
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
-            });
+            //services.AddTransient<ProtectedApiBearerTokenHandler>();
 
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-
-                // Register other policies here
-            });
 
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
@@ -54,6 +50,7 @@ namespace MVCClient
             .AddCookie("Cookies")
             .AddOpenIdConnect("oidc", options =>
             {
+                options.SignInScheme = "Cookies";
                 options.Authority = Configuration["ApiResourceBaseUrls:AuthServer"]; 
 
                 options.ClientId = "mvc";
@@ -66,9 +63,28 @@ namespace MVCClient
 
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
-            });
+            }
+            
+            
+            
+            );
             services.AddPolicyServerClient(Configuration.GetSection("Policy"))
                 .AddAuthorizationPermissionPolicies();
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                // Register other policies here
+            });
+
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            });
 
         }
 

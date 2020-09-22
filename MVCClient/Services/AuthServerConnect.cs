@@ -1,11 +1,13 @@
-﻿using NISApi.Contracts;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NISApi.Services
+namespace MVCClient.Services
 {
     public class AuthServerConnect : IAuthServerConnect
     {

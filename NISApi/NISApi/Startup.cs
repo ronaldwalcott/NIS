@@ -21,6 +21,7 @@ using Microsoft.Net.Http.Headers;
 using System.Linq;
 using Microsoft.AspNet.OData.Formatter;
 using NISApi.DTO.Response.SystemTables;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace NISApi
 {
@@ -61,14 +62,14 @@ namespace NISApi
             services.AddAutoMapper(typeof(MappingProfileConfiguration));
 
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("ApiScope", policy =>
-            //    {
-            //        policy.RequireAuthenticatedUser();
-            //        policy.RequireClaim("scope", "NISapi");
-            //    });
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "NISapi");
+                });
+            });
 
 
 
@@ -128,6 +129,11 @@ namespace NISApi
             //Enable CORS
             app.UseCors("AllowAll");
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
             //Adds authenticaton middleware to the pipeline so authentication will be performed automatically on each request to host
             app.UseAuthentication();
 
@@ -140,7 +146,7 @@ namespace NISApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();  //.RequireAuthorization("ApiScope"); //authorization added 9/18
+                endpoints.MapControllers().RequireAuthorization("ApiScope"); //authorization added 9/18
                 endpoints.Select().Filter().OrderBy().Count().MaxTop(50);
                 endpoints.MapODataRoute("odata", "odata", GetEdmModel());
 

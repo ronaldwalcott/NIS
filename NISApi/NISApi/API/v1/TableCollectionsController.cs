@@ -34,6 +34,7 @@ namespace NISApi.API.v1
         private readonly ILogger<TableCollectionsController> _logger;
         private readonly ITableCollectionManager _collectionManager;
         private readonly IMapper _mapper;
+
         public TableCollectionsController(ITableCollectionManager collectionManager, IMapper mapper, ILogger<TableCollectionsController> logger)
         {
             _collectionManager = collectionManager;
@@ -50,6 +51,7 @@ namespace NISApi.API.v1
         public IEnumerable<CollectionQueryResponse> Get()
         {
             //var queryString = Request.Query;
+            var theUser = User.Claims.ToList();
             var data =  _collectionManager.GetCollections();
             var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data);
 
@@ -94,8 +96,8 @@ namespace NISApi.API.v1
             UserData userData = userClaim.Claims(User);
 
             var collection = _mapper.Map<TableCollection>(updateRequest);
-            //collection.ModifiedBy = userData.UserName;
-            //collection.ModifiedById = userData.UserId;
+            collection.ModifiedBy = userData.UserName;
+            collection.ModifiedById = userData.UserId;
 
             if (await _collectionManager.UpdateAsync(collection))
             {
