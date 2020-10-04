@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MVCClient.Services;
+using MVCClient.Constants;
 
 namespace MVCClient.Areas.SystemTables.Controllers
 {
-    [Area("SystemTables")]
+    [Area(AreaNames.SystemTablesArea)]
     public class CollectionController : Controller
     {
         private readonly IAuthToken _authToken;

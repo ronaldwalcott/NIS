@@ -170,6 +170,24 @@ namespace NISApi.Data
                 .HasIndex(t => new { t.Surname, t.FirstName, t.MiddleName });
 
 
+            modelBuilder.Entity<TableCollection>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableCountry>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableDistrict>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableDocumentType>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableEmploymentType>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableIndustry>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableMaritalStatus>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableNationality>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableOccupation>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableParish>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TablePostalCode>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TablePostOffice>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableStreet>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+
+
+
+
+
             //modelBuilder.Entity<Test>()
             //    .HasIndex(t => t.Code)
             //    .IsUnique();

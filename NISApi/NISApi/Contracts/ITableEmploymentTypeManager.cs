@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableEmploymentTypeManager : IRepository<TableEmploymentType>
     {
+        IEnumerable<TableEmploymentType> GetEmploymentTypes();
     }
 }

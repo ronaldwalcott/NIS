@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableNationalityManager : IRepository<TableNationality>
     {
+        IEnumerable<TableNationality> GetNationalities();
     }
 }

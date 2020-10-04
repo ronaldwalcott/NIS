@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITablePostOfficeManager : IRepository<TablePostOffice>
     {
+        IEnumerable<TablePostOffice> GetPostOffices();
     }
 }

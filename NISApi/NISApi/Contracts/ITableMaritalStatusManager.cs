@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableMaritalStatusManager : IRepository<TableMaritalStatus>
     {
+        IEnumerable<TableMaritalStatus> GetMaritalStatuses();
     }
 }

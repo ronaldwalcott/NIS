@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableOccupationManager : IRepository<TableOccupation>
     {
+        IEnumerable<TableOccupation> GetOccupations();
     }
 }

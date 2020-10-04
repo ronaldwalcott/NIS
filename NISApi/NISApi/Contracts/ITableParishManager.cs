@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableParishManager : IRepository<TableParish>
     {
+        IEnumerable<TableParish> GetParishes();
     }
 }

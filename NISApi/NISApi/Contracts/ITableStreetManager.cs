@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableStreetManager : IRepository<TableStreet>
     {
+        IEnumerable<TableStreet> GetStreets();
     }
 }

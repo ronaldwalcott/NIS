@@ -156,18 +156,19 @@ namespace NISApi
         private IEdmModel GetEdmModel()
         {
             var odataBuilder = new ODataConventionModelBuilder();
-            //odataBuilder.EntitySet<CountryQueryResponse>("TableCountries");
+            odataBuilder.EntitySet<CountryQueryResponse>("TableCountries").EntityType.HasKey(x => x.ID);
             odataBuilder.EntitySet<CollectionQueryResponse>("TableCollections").EntityType.HasKey(x => x.ID);
-            //odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts");
-            //odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes");
-            //odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes");
-            //odataBuilder.EntitySet<IndustryQueryResponse>("TableIndustries");
-            //odataBuilder.EntitySet<MaritalStatusQueryResponse>("TableMaritalStatuses");
-            //odataBuilder.EntitySet<NationalityQueryResponse>("TableNationalities");
-            //odataBuilder.EntitySet<OccupationQueryResponse>("TableOccupations");
-            //odataBuilder.EntitySet<ParishQueryResponse>("TableParishes");
-            //odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes");
-            //odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices");
+            odataBuilder.EntitySet<DistrictQueryResponse>("TableDistricts").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<DocumentTypeQueryResponse>("TableDocumentTypes").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<EmploymentTypeQueryResponse>("TableEmploymentTypes").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<IndustryQueryResponse>("TableIndustries").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<MaritalStatusQueryResponse>("TableMaritalStatuses").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<NationalityQueryResponse>("TableNationalities").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<OccupationQueryResponse>("TableOccupations").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<ParishQueryResponse>("TableParishes").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<StreetQueryResponse>("TableStreets").EntityType.HasKey(x => x.ID);
 
 
 

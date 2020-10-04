@@ -63,7 +63,7 @@ namespace NISApi.Data.DataManager
         }
         public async Task<bool> UpdateAsync(Person person)
         {
-            if (await ExistAsync(person))
+            if (await ExistAsync(person.Id))
             {
                 var personUpdate = await _context.Persons.Where(p => p.Id == person.Id).SingleOrDefaultAsync();
                 personUpdate.DateOfBirth = person.DateOfBirth;
@@ -87,11 +87,11 @@ namespace NISApi.Data.DataManager
         //    return false;
         //}
 
-        public async Task<bool> DeleteAsync(object id, UserData userData)
+        public async Task<bool> DeleteAsync(long id, UserData userData)
         {
-            if (await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id)))
+            if (await _context.Persons.AnyAsync(p => p.Id == id))
             {
-                var personDelete = await _context.Persons.Where(p => p.Id == Convert.ToInt32(id)).SingleOrDefaultAsync();
+                var personDelete = await _context.Persons.Where(p => p.Id == id).SingleOrDefaultAsync();
                 personDelete.IsDeleted = true;
                 personDelete.DeletedBy = userData.UserName;
                 personDelete.DeletedById = userData.UserId;
@@ -104,7 +104,7 @@ namespace NISApi.Data.DataManager
             return false;
         }
 
-        public async Task<bool> ExistAsync(object id)
+        public async Task<bool> ExistAsync(long id)
         {
             return await _context.Persons.AnyAsync(p => p.Id == Convert.ToInt32(id));
         }

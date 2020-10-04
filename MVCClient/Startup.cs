@@ -112,9 +112,8 @@ namespace MVCClient
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapAreaControllerRoute(
+                endpoints.MapControllerRoute(
                     name: "arearoute",
-                    areaName: "SystemTables",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}")
                 .RequireAuthorization();
                 endpoints.MapControllerRoute(
@@ -124,6 +123,11 @@ namespace MVCClient
                 //endpoints.MapRazorPages()
                 //.RequireAuthorization();
             });
+
+            //endpoints.MapAreaControllerRoute(
+            //    name: "arearoute",
+            //    areaName: "SystemTables",
+            //    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}")
 
 
             //app.UseEndpoints(endpoints =>

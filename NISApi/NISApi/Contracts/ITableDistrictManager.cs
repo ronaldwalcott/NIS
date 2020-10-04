@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableDistrictManager : IRepository<TableDistrict>
     {
+        IEnumerable<TableDistrict> GetDistricts();
     }
 }

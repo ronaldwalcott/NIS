@@ -92,11 +92,11 @@ namespace NISApi.Data.DataManager
             return false;
         }
 
-        public async Task<bool> DeleteAsync(object id, UserData userData)
+        public async Task<bool> DeleteAsync(long id, UserData userData)
         {
-            if (await ExistAsync(_context.TableCollections.AnyAsync(p => p.ID == Convert.ToInt64(id))))
+            if (await ExistAsync(id))
             {
-                var collectionDelete = await _context.TableCollections.Where(p => p.ID == Convert.ToInt64(id)).SingleOrDefaultAsync();
+                var collectionDelete = await _context.TableCollections.Where(p => p.ID == id).SingleOrDefaultAsync();
                 collectionDelete.IsDeleted = true;
                 collectionDelete.Action = ActionRecordTypes.Deleted;
                 collectionDelete.DeletedDateTimeUtc = _dateTime.Now;
@@ -109,9 +109,10 @@ namespace NISApi.Data.DataManager
         }
 
 
-        public async Task<bool> ExistAsync(object id)
+        public async Task<bool> ExistAsync(long id)
         {
-            return await _context.TableCollections.AnyAsync(p => p.ID == Convert.ToInt64(id));
+            return await _context.TableCollections.AnyAsync(p => p.ID == id);
+//            return await _context.TableCollections.AnyAsync(p => p.ID == Convert.ToInt64(id));
         }
 
 

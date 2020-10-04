@@ -1,0 +1,79 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Post Offices";
+}
+
+
+
+<div>
+
+    <div tabindex="0" class="e-card" id="basic_card">
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title"> <h2> Post Offices</h2></div>
+                <div class="e-card-sub-title"> </div>
+            </div>
+        </div>
+        <div class="e-card-content">
+
+            <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created" actionComplete="complete">
+                <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
+                <e-grid-pagesettings pageSize="10">
+                </e-grid-pagesettings>
+                <e-grid-columns>
+                    <e-grid-column field="ID" headerText="ID" visible="false" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
+                    <e-grid-column field="Code" headerText="Code" width="150"></e-grid-column>
+                    <e-grid-column field="ShortDescription" headerText="Short Description" width="150"></e-grid-column>
+                    <e-grid-column field="LongDescription" headerText="Long Description" width="170"></e-grid-column>
+                </e-grid-columns>
+            </ejs-grid>
+
+        </div>
+        <div class="e-card-actions">
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .e-grid .e-altrow {
+        background-color: #fafafa;
+    }
+</style>
+
+
+
+<script>
+    function actionFailure(args) {
+        var span = document.createElement('span');
+        this.element.parentNode.insertBefore(span, this.element);
+        span.style.color = '#FF0000'
+        span.innerHTML = 'There was a problem retrieving data';
+    }
+</script>
+
+
+<script>
+    function created(args) {
+        var grid = document.querySelector('#Grid').ej2_instances[0];
+        grid.dataSource = new ej.data.DataManager({
+            url: "@Configuration["ApiResourceBaseUrls:Api"]/odata/TablePostOffices",
+            adaptor: new ej.data.ODataV4Adaptor({ updateType: 'PUT' }),
+            headers: [{ 'Authorization': 'Bearer ' + '@ViewBag.AuthToken' }]
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function complete(args) {
+        if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
+            let dialog = args.dialog;
+            // change the header of the dialog
+            dialog.header = args.requestType === 'beginEdit' ? 'Edit Record' : 'New Record';
+        }
+    }
+
+</script>

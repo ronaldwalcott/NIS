@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableIndustryManager : IRepository<TableIndustry>
     {
+        IEnumerable<TableIndustry> GetIndustries();
     }
 }

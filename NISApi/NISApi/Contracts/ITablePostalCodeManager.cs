@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITablePostalCodeManager : IRepository<TablePostalCode>
     {
+        IEnumerable<TablePostalCode> GetPostalCodes();
     }
 }

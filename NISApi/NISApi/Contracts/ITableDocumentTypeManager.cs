@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableDocumentTypeManager : IRepository<TableDocumentType>
     {
+        IEnumerable<TableDocumentType> GetDocumentTypes();
     }
 }

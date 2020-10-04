@@ -8,5 +8,6 @@ namespace NISApi.Contracts
 {
     public interface ITableCountryManager : IRepository<TableCountry>
     {
+        IEnumerable<TableCountry> GetCountries();
     }
 }

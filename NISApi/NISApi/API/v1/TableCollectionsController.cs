@@ -50,8 +50,6 @@ namespace NISApi.API.v1
         [HttpGet]
         public IEnumerable<CollectionQueryResponse> Get()
         {
-            //var queryString = Request.Query;
-            var theUser = User.Claims.ToList();
             var data =  _collectionManager.GetCollections();
             var collections = _mapper.Map<IEnumerable<CollectionQueryResponse>>(data);
 
@@ -65,7 +63,13 @@ namespace NISApi.API.v1
         {
             if (!ModelState.IsValid) { throw new ApiProblemDetailsException(ModelState); }
 
+            UserClaim userClaim = new UserClaim();
+            UserData userData = userClaim.Claims(User);
+
             var collection = _mapper.Map<TableCollection>(createRequest);
+            collection.CreatedBy = userData.UserName;
+            collection.CreatedById = userData.UserId;
+
             return new ApiResponse("Record successfully created.", await _collectionManager.CreateAsync(collection), Status201Created);
         }
 
@@ -90,7 +94,6 @@ namespace NISApi.API.v1
                 throw new ApiProblemDetailsException($"Problem accessing record with Code: {updateRequest.Code}.", Status400BadRequest);
 //                return ap  BadRequest();
             }
-            var theUser = User.Claims.ToList();
 
             UserClaim userClaim = new UserClaim();
             UserData userData = userClaim.Claims(User);
@@ -109,7 +112,30 @@ namespace NISApi.API.v1
             }
         }
 
+        [Route("{id:long}")]
+        [HttpDelete]
+        [ProducesResponseType(typeof(ApiResponse), Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
+        public async Task<ApiResponse> Delete([FromODataUri] long key)
+        {
+            if (!ModelState.IsValid) 
+            { 
+                throw new ApiProblemDetailsException(ModelState); 
+            }
 
+            UserClaim userClaim = new UserClaim();
+            UserData userData = userClaim.Claims(User);
+
+            if (await _collectionManager.DeleteAsync(key, userData))
+            {
+                return new ApiResponse($"Record with Id: {key} sucessfully deleted.", true);
+            }
+            else
+            {
+                throw new ApiProblemDetailsException($"Record with Id: {key} does not exist.", Status404NotFound);
+            }
+        }
 
 
 
