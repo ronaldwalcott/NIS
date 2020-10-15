@@ -116,10 +116,10 @@ namespace NISApi
             //More info see: https://github.com/proudmonkey/AutoWrapper
             //            app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions { IsDebug = true, UseApiProblemDetailsException = true });
             //app.UseApiResponseAndExceptionWrapper();
-            app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions
-            {
-                IgnoreWrapForOkRequests = true,
-            });
+            //app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions
+            //{
+            //    IgnoreWrapForOkRequests = true,
+            //});
 
             //Enable AspNetCoreRateLimit
             app.UseIpRateLimiting();
@@ -147,6 +147,8 @@ namespace NISApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireAuthorization("ApiScope"); //authorization added 9/18
+                //endpoints.MapControllers();
+
                 endpoints.Select().Filter().OrderBy().Count().MaxTop(50);
                 endpoints.MapODataRoute("odata", "odata", GetEdmModel());
 
@@ -169,8 +171,11 @@ namespace NISApi
             odataBuilder.EntitySet<PostalCodeQueryResponse>("TablePostalCodes").EntityType.HasKey(x => x.ID);
             odataBuilder.EntitySet<PostOfficeQueryResponse>("TablePostOffices").EntityType.HasKey(x => x.ID);
             odataBuilder.EntitySet<StreetQueryResponse>("TableStreets").EntityType.HasKey(x => x.ID);
-
-
+            odataBuilder.EntitySet<TaskStatusQueryResponse>("TableTaskStatuses").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<TaskTypeQueryResponse>("TableTaskTypes").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<TaskPriorityQueryResponse>("TableTaskPriorities").EntityType.HasKey(x => x.ID);
+            odataBuilder.EntitySet<TaskReferenceTypeQueryResponse>("TableTaskReferenceTypes").EntityType.HasKey(x => x.ID);
+           
 
             //  odataBuilder.EntityType<PersonResponse>().DerivesFromNothing();
 

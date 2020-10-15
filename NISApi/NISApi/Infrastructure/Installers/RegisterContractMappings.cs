@@ -24,6 +24,11 @@ namespace NISApi.Infrastructure.Installers
             services.AddTransient<ITablePostalCodeManager, TablePostalCodeManager>();
             services.AddTransient<ITablePostOfficeManager, TablePostOfficeManager>();
             services.AddTransient<ITableStreetManager, TableStreetManager>();
+            services.AddTransient<ITableTaskStatusManager, TableTaskStatusManager>();
+            services.AddTransient<ITableTaskTypeManager, TableTaskTypeManager>();
+            services.AddTransient<ITableTaskPriorityManager, TableTaskPriorityManager>();
+            services.AddTransient<ITableTaskReferenceTypeManager, TableTaskReferenceTypeManager>();
+
         }
     }
 }

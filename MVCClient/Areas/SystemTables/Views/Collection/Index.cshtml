@@ -25,15 +25,15 @@
         </div>
         <div class="e-card-content">
 
-            <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created" actionComplete="complete">
+            <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" allowTextWrap="true" actionFailure="actionFailure" created="created" actionComplete="complete">
                 <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog" showDeleteConfirmDialog="true"></e-grid-editSettings>
                 <e-grid-pagesettings pageSize="10">
                 </e-grid-pagesettings>
                 <e-grid-columns>
                     <e-grid-column field="ID" headerText="ID" visible="false" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
                     <e-grid-column field="Code" headerText="Code" width="150" validationRules="@(new { required= true, maxLength = 10  })"></e-grid-column>
-                    <e-grid-column field="ShortDescription" headerText="Short Description" width="150" edit="@(new {@params = TextField})"></e-grid-column>
-                    <e-grid-column field="LongDescription" headerText="Long Description" width="170" ></e-grid-column>
+                    <e-grid-column field="ShortDescription" headerText="Short Description" width="150" validationRules="@(new { required= true, maxLength = 50  })" edit="@(new {@params = TextField})"></e-grid-column>
+                    <e-grid-column field="LongDescription" headerText="Long Description" width="170" validationRules="@(new { required= true, maxLength = 90  })"></e-grid-column>
                 </e-grid-columns>
             </ejs-grid>
 
@@ -90,67 +90,13 @@
 
 <script>
     function Changed(args) {
-        console.log("Changed " + JSON.stringify(args.itemData));
-
-
+        //console.log("Changed " + JSON.stringify(args.itemData));
         var grid = document.querySelector('#Grid').ej2_instances[0];
 
-        console.log("Grid " + grid.editModule.formObj.element.querySelector("#" + grid.element.id + "ShortDescription").ej2_instances[0].value);
-        if (grid.editModule.formObj.element.querySelector("#" + grid.element.id + "LongDescription").ej2_instances[0].value == "") {
-            grid.editModule.formObj.element.querySelector("#" + grid.element.id + "LongDescription").ej2_instances[0].value = grid.editModule.formObj.element.querySelector("#" + grid.element.id + "ShortDescription").ej2_instances[0].value;
+        if (fieldValue(grid,"LongDescription") == "") {
+            setFieldValue(grid,"LongDescription", "ShortDescription");
         }
     }
 
 </script>
 
-
-
-
-
-
-
-<script>
-    var elem;
-    var dObj;
-
-    function create(args) {
-        elem = document.createElement('input');
-        return elem;
-    }
-
-    function write(args) {
-        console.log("Short Description " + args);
-        console.log("write    " + JSON.stringify(args.rowData));
-
-        var grid = document.querySelector('#Grid').ej2_instances[0];
-        //console.log("grid    " + JSON.stringify(grid));
-
-        //console.log("Short description value       " + grid.element.querySelector("#" + grid.element.id + "ShortDescription").value);
-        //grid.element.querySelector("#GridShortDescription").value = "Test";
-        //args.form.elements.namedItem('ShortDescription').value = "Test";
-        //dObj = new ej.calendars.DatePicker({
-        //    value: new Date(args.rowData[args.column.field]),
-        //    placeholder: 'Select DateTime'
-        //});
-        //dObj.appendTo(elem);
-    }
-
-    function destroy() {
-
-        //dObj.destroy();
-    }
-
-    function read(args) {
-        console.log("read   " + JSON.stringify(args));
-        //return dObj.value;
-    }
-</script>
-
-@*edit="@(new { create = "create", read = "read", destroy = "destroy", write = "write" })"*@
-
-@*<e-data-manager url="https://localhost:6001/odata/TableCollections" adaptor="ODataV4Adaptor" crossdomain="true" updateUrl="https://localhost:6001/api/v1/TableCollections"></e-data-manager>*@
-
-
-@*options = {
-        updateType: 'PUT',
-    };*@

@@ -4,25 +4,165 @@
 
 @using Microsoft.AspNetCore.Authentication
 
-<h2>Claims</h2>
 
-<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
+
+<div class=" control-section">
+    <!--  DashboardLayout element declaration -->
+    <ejs-dashboardlayout id="defaultLayout" columns="8">
+        <e-content-template>
+            <div id="one" class="e-panel" data-row="0" data-col="0" data-sizeX="4" data-sizeY="3">
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        Panel 1
+                    </div>
+                    <div class="e-panel-content">
+                        <div>
+                            <div style="margin: 50px;">
+                                <div tabindex="0" class="e-card">
+                                    <div class="e-card-header">
+                                        <div class="e-card-header-image football"></div>
+                                        <div class="e-card-header-caption">
+                                            <div class="e-card-header-title"> Laura Callahan</div>
+                                            <div class="e-card-sub-title">Sales Coordinator and Representative</div>
+                                        </div>
+                                    </div>
+                                    <div class="e-card-content">
+                                        Laura received a BA in psychology from the University of Washington. She has also completed a course in business French. She reads and writes French.
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin: 50px">
+                                <div tabindex="1" class="e-card">
+                                    <div class="e-card-header e-card-corner">
+                                        <div class="e-card-header-caption">
+                                            <div class="e-card-header-title"> Laura Callahan</div>
+                                            <div class="e-card-sub-title">Sales Coordinator and Representative</div>
+                                        </div>
+                                        <div class="e-card-header-image football"></div>
+                                    </div>
+                                    <div class="e-card-content">
+                                        Laura received a BA in psychology from the University of Washington. She has also completed a course in business French. She reads and writes French.
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin: 50px">
+                                <div tabindex="1" class="e-card">
+                                    <div class="e-card-header e-card-corner">
+                                        <div class="e-card-header-caption">
+                                            <div class="e-card-header-title"> Laura Callahan</div>
+                                            <div class="e-card-sub-title">Sales Coordinator and Representative</div>
+                                        </div>
+                                        <div class="e-card-header-image football"></div>
+                                    </div>
+                                    <div class="e-card-content">
+                                        Laura received a BA in psychology from the University of Washington. She has also completed a course in business French. She reads and writes French.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="two" class="e-panel" data-row="1" data-col="0" data-sizeX="1" data-sizeY="2">
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        Claims
+                    </div>
+                    <div class="e-panel-content">
+                        <dl>
+                            @foreach (var claim in User.Claims)
+                            {
+                                <dt>@claim.Type</dt>
+                                <dd>@claim.Value</dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <div id="three" class="e-panel" data-row="0" data-col="1" data-sizeX="2" data-sizeY="2">
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        Properties
+                    </div>
+                    <div class="e-panel-content">
+                        <dl>
+                            @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+                            {
+                                <dt>@prop.Key</dt>
+                                <dd>@prop.Value</dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="four" class="e-panel" data-row="2" data-col="3" data-sizeX="4" data-sizeY="2">
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+
+                    </div>
+                    <div class="e-panel-content">
+                        <ejs-kanban id="Kanban">
+                            <e-kanban-columns>
+                                <e-kanban-column headerText="To Do" keyField="Open"></e-kanban-column>
+                                <e-kanban-column headerText="In Progress" keyField="InProgress"></e-kanban-column>
+                                <e-kanban-column headerText="Testing" keyField="Testing"></e-kanban-column>
+                                <e-kanban-column headerText="Done" keyField="Close"></e-kanban-column>
+                            </e-kanban-columns>
+                        </ejs-kanban>
+                    </div>
+                </div>
+            </div>
+
+        </e-content-template>
+    </ejs-dashboardlayout>
+    <!-- end of dashboardlayout element -->
+</div>
+
+
+
+
+<style>
+    .e-panel-content {
+        overflow: auto;
     }
-</dl>
 
-<h2>Properties</h2>
 
-<dl>
-    @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
-    {
-        <dt>@prop.Key</dt>
-        <dd>@prop.Value</dd>
+    .e-panel-header {
+        padding: 10px;
+        border-bottom: 2px solid #e6e9ed !important;
+        height: 35px;
+        margin: 0 15px 0 15px;
     }
-</dl>
+</style>
+
+
+
+@*<style>
+  
+
+
+    .e-dashboardlayout.e-control .e-panel:hover span {
+        display: block;
+    }
+
+    .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+        padding: 10px;
+        border-bottom: 2px solid #e6e9ed !important;
+        height: 35px;
+        margin: 0 15px 0 15px;
+    }
+
+    .e-dashboardlayout.e-control .e-panel,
+    .e-dashboardlayout.e-control .e-panel:hover,
+    .e-dashboardlayout.e-control .e-panel:active {
+        border: 1px solid #bbb;
+    }
+</style>*@
+
+
+
+
 
 <div>
     <ejs-calendar id="calendar"></ejs-calendar>

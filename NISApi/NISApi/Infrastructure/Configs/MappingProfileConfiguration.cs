@@ -6,6 +6,9 @@ using NISApi.DTO.Request;
 using NISApi.Data.Entity.SystemTables;
 using NISApi.DTO.Response.SystemTables;
 using NISApi.DTO.Request.SystemTables;
+using NISApi.Data.Entity.Tasks;
+using NISApi.DTO.Request.Users;
+using NISApi.DTO.Response.Users;
 
 namespace NISApi.Infrastructure.Configs
 {
@@ -69,6 +72,26 @@ namespace NISApi.Infrastructure.Configs
             CreateMap<TableStreet, UpdateStreetRequest>().ReverseMap();
             CreateMap<TableStreet, StreetQueryResponse>().ReverseMap();
 
+            CreateMap<TableTaskStatus, CreateTaskStatusRequest>().ReverseMap();
+            CreateMap<TableTaskStatus, UpdateTaskStatusRequest>().ReverseMap();
+            CreateMap<TableTaskStatus, TaskStatusQueryResponse>().ReverseMap();
+
+            CreateMap<TableTaskType, CreateTaskTypeRequest>().ReverseMap();
+            CreateMap<TableTaskType, UpdateTaskTypeRequest>().ReverseMap();
+            CreateMap<TableTaskType, TaskTypeQueryResponse>().ReverseMap();
+
+            CreateMap<TableTaskPriority, CreateTaskPriorityRequest>().ReverseMap();
+            CreateMap<TableTaskPriority, UpdateTaskPriorityRequest>().ReverseMap();
+            CreateMap<TableTaskPriority, TaskPriorityQueryResponse>().ReverseMap();
+
+            CreateMap<TableTaskReferenceType, CreateTaskReferenceTypeRequest>().ReverseMap();
+            CreateMap<TableTaskReferenceType, UpdateTaskReferenceTypeRequest>().ReverseMap();
+            CreateMap<TableTaskReferenceType, TaskReferenceTypeQueryResponse>().ReverseMap();
+
+
+            CreateMap<PersonTask, CreatePersonTaskRequest>().ReverseMap();
+            CreateMap<PersonTask, UpdatePersonTaskRequest>().ReverseMap();
+            CreateMap<PersonTask, PersonTaskQueryResponse>().ReverseMap();
 
         }
     }

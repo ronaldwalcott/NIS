@@ -35,6 +35,7 @@ namespace MVCClient
             //services.AddHttpClient<IAuthServerConnect, AuthServerConnect>();            
             
             services.AddScoped<INisHttpClient, NisHttpClient>();
+            services.AddScoped<INisHttpOdataClient, NisHttpOdataClient>();
             services.AddScoped<IAuthToken, AuthToken>();
 
             //services.AddTransient<ProtectedApiBearerTokenHandler>();

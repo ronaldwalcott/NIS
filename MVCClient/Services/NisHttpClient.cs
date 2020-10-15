@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,14 @@ namespace MVCClient.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public NisHttpClient(IHttpContextAccessor httpContextAccessor) 
+        public NisHttpClient(IHttpContextAccessor httpContextAccessor, IConfiguration configuration) 
         {
             _httpClient = new HttpClient();
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
+
         }
 
         public async Task<HttpClient> GetClient()
@@ -33,7 +37,7 @@ namespace MVCClient.Services
                 _httpClient.SetBearerToken(accessToken);
             }
 
-            _httpClient.BaseAddress = new Uri("https://localhost:5001/");
+            _httpClient.BaseAddress = new Uri(_configuration["ApiResourceBaseUrls:AuthServer"] + "/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));

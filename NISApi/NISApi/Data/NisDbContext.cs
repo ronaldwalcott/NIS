@@ -3,6 +3,7 @@ using NISApi.Data.Entity;
 using NISApi.Data.Entity.Employer;
 using NISApi.Data.Entity.InsuredPerson;
 using NISApi.Data.Entity.SystemTables;
+using NISApi.Data.Entity.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,13 @@ namespace NISApi.Data
         public DbSet<TablePostalCode> TablePostalCodes { get; set; }
         public DbSet<TablePostOffice> TablePostOffices { get; set; }
         public DbSet<TableStreet> TableStreets { get; set; }
+        public DbSet<TableTaskStatus> TableTaskStatuses { get; set; }
+        public DbSet<TableTaskType> TableTaskTypes { get; set; }
+        public DbSet<TableTaskPriority> TableTaskPriorities { get; set; }
+        public DbSet<TableTaskReferenceType> TableTaskReferenceTypes { get; set; }
+
+
+
 
         public DbSet<ERBasic> ERBasics { get; set; }
         public DbSet<ERBasic2> ERBasic2s { get; set; }
@@ -49,6 +57,15 @@ namespace NISApi.Data
         public DbSet<IPSpouse> IPSpouses { get; set; }
 
 
+        public DbSet<PersonTask> PersonTasks { get; set; }
+
+
+
+
+
+
+
+
         public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,6 +83,12 @@ namespace NISApi.Data
             modelBuilder.Entity<TablePostalCode>().ToTable("TablePostalCode");
             modelBuilder.Entity<TablePostOffice>().ToTable("TablePostOffice");
             modelBuilder.Entity<TableStreet>().ToTable("TableStreet");
+            modelBuilder.Entity<TableTaskStatus>().ToTable("TableTaskStatus");
+            modelBuilder.Entity<TableTaskType>().ToTable("TableTaskType");
+            modelBuilder.Entity<TableTaskPriority>().ToTable("TableTaskPriority");
+            modelBuilder.Entity<TableTaskReferenceType>().ToTable("TableTaskReferenceType");
+
+
 
 
             modelBuilder.Entity<ERBasic>().ToTable("ERBasic");
@@ -152,6 +175,29 @@ namespace NISApi.Data
             modelBuilder.Entity<TableStreet>()
                 .HasIndex(t => t.ShortDescription);
 
+            modelBuilder.Entity<TableTaskStatus>()
+                .HasAlternateKey(t => t.Code);
+            modelBuilder.Entity<TableTaskStatus>()
+                .HasIndex(t => t.ShortDescription);
+
+            modelBuilder.Entity<TableTaskType>()
+                .HasAlternateKey(t => t.Code);
+            modelBuilder.Entity<TableTaskType>()
+                .HasIndex(t => t.ShortDescription);
+
+            modelBuilder.Entity<TableTaskPriority>()
+                .HasAlternateKey(t => t.Code);
+            modelBuilder.Entity<TableTaskPriority>()
+                .HasIndex(t => t.ShortDescription);
+
+            modelBuilder.Entity<TableTaskReferenceType>()
+                .HasAlternateKey(t => t.Code);
+            modelBuilder.Entity<TableTaskReferenceType>()
+                .HasIndex(t => t.ShortDescription);
+
+
+
+
             modelBuilder.Entity<ERMaster>()
                 .HasAlternateKey(t => t.EmployerName);
             modelBuilder.Entity<ERMaster>()
@@ -170,6 +216,19 @@ namespace NISApi.Data
                 .HasIndex(t => new { t.Surname, t.FirstName, t.MiddleName });
 
 
+            modelBuilder.Entity<PersonTask>()
+                .HasAlternateKey(t => new { t.UserID, t.ID });
+            modelBuilder.Entity<PersonTask>()
+                .HasIndex(t => t.UserID);
+
+
+
+
+
+
+
+
+
             modelBuilder.Entity<TableCollection>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
             modelBuilder.Entity<TableCountry>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
             modelBuilder.Entity<TableDistrict>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
@@ -183,6 +242,10 @@ namespace NISApi.Data
             modelBuilder.Entity<TablePostalCode>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
             modelBuilder.Entity<TablePostOffice>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
             modelBuilder.Entity<TableStreet>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableTaskStatus>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableTaskType>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableTaskPriority>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
+            modelBuilder.Entity<TableTaskReferenceType>().HasQueryFilter(t => t.IsDeleted == false || t.IsDeleted == null);
 
 
 

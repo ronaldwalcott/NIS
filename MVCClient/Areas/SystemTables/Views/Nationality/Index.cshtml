@@ -5,7 +5,13 @@
     ViewData["Title"] = "Nationalities";
 }
 
+@{
+    var TextField = new Syncfusion.EJ2.Inputs.TextBox
+    {
+        Change = "Changed",
 
+    };
+}
 
 <div>
 
@@ -18,17 +24,18 @@
         </div>
         <div class="e-card-content">
 
-            <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" actionFailure="actionFailure" created="created" actionComplete="complete">
-                <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
+            <ejs-grid id="Grid" toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" allowPaging="true" allowSorting="true" allowFiltering="true" allowTextWrap="true" actionFailure="actionFailure" created="created" actionComplete="complete">
+                <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog" showDeleteConfirmDialog="true"></e-grid-editSettings>
                 <e-grid-pagesettings pageSize="10">
                 </e-grid-pagesettings>
                 <e-grid-columns>
                     <e-grid-column field="ID" headerText="ID" visible="false" isPrimaryKey="true" textAlign="Right" width="120"></e-grid-column>
-                    <e-grid-column field="Code" headerText="Code" width="150"></e-grid-column>
-                    <e-grid-column field="ShortDescription" headerText="Short Description" width="150"></e-grid-column>
-                    <e-grid-column field="LongDescription" headerText="Long Description" width="170"></e-grid-column>
+                    <e-grid-column field="Code" headerText="Code" width="150" validationRules="@(new { required= true, maxLength = 10  })"></e-grid-column>
+                    <e-grid-column field="ShortDescription" headerText="Short Description" width="150" validationRules="@(new { required= true, maxLength = 50  })" edit="@(new {@params = TextField})"></e-grid-column>
+                    <e-grid-column field="LongDescription" headerText="Long Description" width="170" validationRules="@(new { required= true, maxLength = 90  })"></e-grid-column>
                 </e-grid-columns>
             </ejs-grid>
+
 
         </div>
         <div class="e-card-actions">
@@ -73,6 +80,17 @@
             let dialog = args.dialog;
             // change the header of the dialog
             dialog.header = args.requestType === 'beginEdit' ? 'Edit Record' : 'New Record';
+        }
+    }
+
+</script>
+
+<script>
+    function Changed(args) {
+        var grid = document.querySelector('#Grid').ej2_instances[0];
+
+        if (fieldValue(grid, "LongDescription") == "") {
+            setFieldValue(grid, "LongDescription", "ShortDescription");
         }
     }
 
