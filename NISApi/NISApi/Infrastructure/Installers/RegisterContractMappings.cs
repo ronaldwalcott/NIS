@@ -29,6 +29,8 @@ namespace NISApi.Infrastructure.Installers
             services.AddTransient<ITableTaskPriorityManager, TableTaskPriorityManager>();
             services.AddTransient<ITableTaskReferenceTypeManager, TableTaskReferenceTypeManager>();
 
+            services.AddTransient<IPersonTaskManager, PersonTaskManager>();
+
         }
     }
 }

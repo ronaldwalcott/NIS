@@ -34,16 +34,29 @@ namespace NISApi.API.v1
 
 
         [HttpGet]
-        public IEnumerable<PersonTaskQueryResponse> Get()
+        public async Task<IEnumerable<PersonTaskQueryResponse>> Get()
         {
             UserClaim userClaim = new UserClaim();
             UserData userData = userClaim.Claims(User);
 
-            var data = _personTaskManager.GetByUserAsync(userData.UserId);
+            var data = await _personTaskManager.GetByUserAsync(userData.UserId);
+
             var personTasks = _mapper.Map<IEnumerable<PersonTaskQueryResponse>>(data);
 
             return personTasks;
         }
+
+        [HttpGet("{id}")]
+        public async Task<PersonTaskQueryResponse> GetSingle(long id)
+        {
+            var data = await _personTaskManager.GetByIdAsync(id);
+            var personTask = _mapper.Map<PersonTaskQueryResponse>(data);
+
+            return personTask;
+        }
+
+
+
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse), Status201Created)]
@@ -58,12 +71,14 @@ namespace NISApi.API.v1
             var personTask = _mapper.Map<PersonTask>(createRequest);
             personTask.CreatedBy = userData.UserName;
             personTask.CreatedById = userData.UserId;
+            personTask.User = userData.UserName;
+            personTask.UserID = userData.UserId;
 
             return new ApiResponse("Record successfully created.", await _personTaskManager.CreateAsync(personTask), Status201Created);
         }
 
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(ApiResponse), Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse), Status422UnprocessableEntity)]
