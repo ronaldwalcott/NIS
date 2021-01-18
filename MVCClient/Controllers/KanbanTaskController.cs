@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -15,6 +16,7 @@ using Simple.OData.Client;
 
 namespace MVCClient.Controllers
 {
+
     public class KanbanTaskController : Controller
     {
         private readonly ILogger<KanbanTaskController> _logger;
@@ -86,6 +88,19 @@ namespace MVCClient.Controllers
                     DateToBeCompleted = value.DateToBeCompleted,
                     Colour = value.Colour
                 };
+                if (card.Priority == "High")
+                {
+                    card.Colour = getColour("red");
+                }
+                else if (card.Priority == "Medium")
+                {
+                    card.Colour = getColour("yellow");
+                }
+                else if (card.Priority == "Low")
+                {
+                    card.Colour = getColour("green");
+                }
+
                 //var httpClient = await _nisHttpClient.GetClient();
                 StringContent content = new StringContent(JsonConvert.SerializeObject(card), Encoding.UTF8, "application/json");
                 var insertResponse = await httpClient.PostAsync(_configuration["ApiResourceBaseUrls:Api"] + "/api/v1/PersonTasks", content);
@@ -124,6 +139,21 @@ namespace MVCClient.Controllers
                     updateCard.Colour = value.Colour;
                     updateCard.User = value.User;
                     updateCard.UserID = value.UserID;
+
+                    if (updateCard.Priority == "High")
+                    {
+                        updateCard.Colour = getColour("red");
+                    }
+                    else if (updateCard.Priority == "Medium")
+                    {
+                        updateCard.Colour = getColour("yellow");
+                    }
+                    else if (updateCard.Priority == "Low")
+                    {
+                        updateCard.Colour = getColour("green");
+                    }
+
+
 
                     //var httpClient = await _nisHttpClient.GetClient();
                     StringContent content = new StringContent(JsonConvert.SerializeObject(updateCard), Encoding.UTF8, "application/json");
@@ -190,7 +220,19 @@ namespace MVCClient.Controllers
             //return _context.KanbanCards.ToList();
         }
 
+        private string getColour(string colour)
+        {
+            Hashtable colourValue = new Hashtable();
+            colourValue.Add("blue","#007bff");
+            colourValue.Add("purple", "#6f42c1");
+            colourValue.Add("red", "#dc3545");
+            colourValue.Add("orange", "#fd7e14");
+            colourValue.Add("yellow", "#ffc107");
+            colourValue.Add("green", "#28a745");
 
+            return (string) colourValue[colour];
+
+        }
 
         //private ODataClientSettings SetODataToken(string url, string accessToken)
         //{
@@ -243,5 +285,6 @@ namespace MVCClient.Controllers
         public List<KanbanCard> deleted { get; set; }
         public KanbanCard value { get; set; }
     }
+
 
 }

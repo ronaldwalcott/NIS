@@ -11,7 +11,7 @@
             <div id='container'>
 
                 <div class="control-section">
-                    <ejs-kanban id="Kanban" keyField="Status"  dialogOpen="onDialogOpen" enableTooltip="true" tooltipTemplate="#tooltipTemp" created="onKanbanCreated">
+                    <ejs-kanban id="Kanban" keyField="Status"  dialogOpen="onDialogOpen" enableTooltip="true" tooltipTemplate="#tooltipTemp" created="onKanbanCreated" actionComplete="onActionComplete">
                         <e-data-manager url="/KanbanTask/LoadCard" crudUrl="/KanbanTask/UpdateCard" adaptor="UrlAdaptor" crossDomain="true"></e-data-manager>
                         <e-kanban-columns>
                             <e-kanban-column headerText="To Do" keyField="Open" template="#headerTemplate"></e-kanban-column>
@@ -19,7 +19,7 @@
                             <e-kanban-column headerText="In Review" keyField="Review" template="#headerTemplate"></e-kanban-column>
                             <e-kanban-column headerText="Done" keyField="Close" template="#headerTemplate"></e-kanban-column>
                         </e-kanban-columns>
-                        <e-kanban-cardsettings headerField="Title" contentField="Summary"></e-kanban-cardsettings>
+                        <e-kanban-cardsettings headerField="Title" grabberField="Colour" contentField="Summary"></e-kanban-cardsettings>
                         <e-kanban-dialogsettings template="#dialogTemplate"></e-kanban-dialogsettings>
                     </ejs-kanban>
                 </div>
@@ -196,6 +196,13 @@
     var priorityData =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Priorities));
     var referenceTypeData =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.ReferenceTypes));
     var taskTypeData =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.TaskTypes));
+
+    //refresh Kanban card colour after changing or creating a card
+    function onActionComplete(args) {
+        if (args.requestType == 'cardChanged' || args.requestType == 'cardCreated') {
+            kanbanObj.refresh();
+        }
+    }
 
     function onKanbanCreated() {
         kanbanObj = this;
